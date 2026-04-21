@@ -1,0 +1,37 @@
+seed: 42
+
+paths:
+  data_root: "c:/Users/emili/sepsis_project/data/challenge-2019/training"
+  out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_smoke"
+
+data:
+  train_dirs:
+    - "training_setA"
+    - "training_setB"
+  split_ratio:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  max_patients: 300
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+
+model:
+  hidden_size: 64
+  num_layers: 2
+  num_heads: 4
+  ff_dim: 128
+  dropout: 0.10
+
+train:
+  epochs: 2
+  batch_size: 16
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  grad_clip: 1.0
+  early_stopping_patience: 2
+  num_workers: 0
+  lambda_propensity: 1.0
+  lambda_balance: 0.1
+  lambda_smooth: 0.05
+

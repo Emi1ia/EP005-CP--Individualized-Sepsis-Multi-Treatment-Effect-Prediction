@@ -1,0 +1,117 @@
+seed: 42
+paths:
+  data_root: c:/Users/emili/sepsis_project/data/challenge-2019/training
+  out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_patient_horizon_smoke
+data:
+  train_dirs:
+  - training_setA
+  - training_setB
+  split_ratio:
+    train: 0.7
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+model:
+  hidden_size: 128
+  num_layers: 4
+  num_heads: 8
+  ff_dim: 256
+  dropout: 0.15213380140918506
+train:
+  epochs: 40
+  batch_size: 32
+  learning_rate: 0.00014642013631019512
+  weight_decay: 5.930845185621574e-06
+  grad_clip: 0.9563633644393066
+  early_stopping_patience: 8
+  num_workers: 0
+  lambda_propensity: 0.7486373774747933
+  lambda_balance: 0.030398696602619617
+  lambda_smooth: 0.02778090851688602
+  lambda_sepsis: 3.0990257265289514
+  sepsis_pos_weight: 6.319450186421157
+  metric_target: sepsis
+  metric_threshold: 0.5
+  sepsis_target_mode: future_horizon
+  sepsis_horizon_hours: 12
+  early_stopping_metric: auprc
+  early_stopping_mode: max
+  max_train_patients: null
+  max_val_patients: null
+eval:
+  threshold: 0.5
+  sepsis_threshold: 0.5
+  sepsis_patient_threshold: 0.20999999999999996
+  sepsis_target_mode: future_horizon
+  sepsis_horizon_hours: 12
+  sepsis_patient_aggregation: max
+tune:
+  method: bayes
+  direction: minimize
+  objective_metric: hybrid_combo
+  classification_level: patient
+  hybrid_objective_weights:
+    pehe: 0.4
+    ate_error: 0.4
+    policy_regret: 0.7
+    one_minus_sepsis_auroc: 3.0
+    sepsis_rmse: 2.0
+  study_name: sepsis_hparam_tuning_patient_horizon_smoke
+  n_trials: 1
+  max_total_trials: 1
+  timeout_sec: null
+  trial_epochs: 1
+  trial_patience: 1
+  max_train_patients: 500
+  max_val_patients: 200
+  search_space:
+    model.hidden_size:
+    - 96
+    - 128
+    - 160
+    model.num_heads:
+    - 8
+    model.num_layers:
+    - 2
+    - 3
+    - 4
+    model.ff_multiplier:
+    - 2
+    - 3
+    model.dropout_min: 0.08
+    model.dropout_max: 0.2
+    train.learning_rate_min: 4.0e-05
+    train.learning_rate_max: 0.00025
+    train.weight_decay_min: 5.0e-06
+    train.weight_decay_max: 0.02
+    train.batch_size:
+    - 32
+    - 64
+    train.lambda_propensity_min: 0.6
+    train.lambda_propensity_max: 1.3
+    train.lambda_balance_min: 0.02
+    train.lambda_balance_max: 0.2
+    train.lambda_smooth_min: 0.02
+    train.lambda_smooth_max: 0.12
+    train.grad_clip_min: 0.5
+    train.grad_clip_max: 2.0
+    train.lambda_sepsis_min: 1.0
+    train.lambda_sepsis_max: 5.0
+    train.sepsis_pos_weight_min: 2.0
+    train.sepsis_pos_weight_max: 12.0
+optimize:
+  auto_prepare: true
+  reset_train_patient_limits: true
+  calibrate_threshold: true
+  threshold_target: sepsis
+  threshold_level: patient
+  sepsis_target_mode: future_horizon
+  sepsis_horizon_hours: 12
+  sepsis_patient_aggregation: max
+  threshold_min: 0.05
+  threshold_max: 0.95
+  threshold_steps: 91
+  final_out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_patient_horizon_smoke
+  output_config_path: configs/final/final_patient_horizon_smoke.yaml

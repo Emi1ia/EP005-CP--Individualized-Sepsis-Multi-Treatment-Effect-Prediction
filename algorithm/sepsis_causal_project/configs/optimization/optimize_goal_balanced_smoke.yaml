@@ -1,0 +1,102 @@
+seed: 42
+
+paths:
+  data_root: "c:/Users/emili/sepsis_project/data/challenge-2019/training"
+  out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts"
+
+data:
+  train_dirs:
+    - "training_setA"
+    - "training_setB"
+  split_ratio:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+
+model:
+  hidden_size: 128
+  num_layers: 3
+  num_heads: 8
+  ff_dim: 256
+  dropout: 0.12
+
+train:
+  epochs: 40
+  batch_size: 64
+  learning_rate: 0.0001
+  weight_decay: 0.001
+  grad_clip: 1.0
+  early_stopping_patience: 8
+  num_workers: 0
+  lambda_propensity: 1.0
+  lambda_balance: 0.08
+  lambda_smooth: 0.05
+  lambda_sepsis: 1.5
+  sepsis_pos_weight: 3.0
+  metric_target: "sepsis"
+  metric_threshold: 0.5
+  early_stopping_metric: "auprc"
+  early_stopping_mode: "max"
+  max_train_patients: null
+  max_val_patients: null
+
+eval:
+  threshold: 0.5
+  sepsis_threshold: 0.5
+
+tune:
+  method: "bayes"
+  direction: "minimize"
+  objective_metric: "hybrid_combo"
+  hybrid_objective_weights:
+    pehe: 0.6
+    ate_error: 0.6
+    policy_regret: 1.0
+    one_minus_sepsis_auroc: 2.0
+    sepsis_rmse: 1.5
+  study_name: "sepsis_hparam_tuning_goal_balanced_smoke"
+  n_trials: 1
+  max_total_trials: 1
+  timeout_sec: null
+  trial_epochs: 1
+  trial_patience: 1
+  max_train_patients: 400
+  max_val_patients: 150
+  search_space:
+    model.hidden_size: [96, 128, 160]
+    model.num_heads: [8]
+    model.num_layers: [2, 3, 4]
+    model.ff_multiplier: [2, 3]
+    model.dropout_min: 0.08
+    model.dropout_max: 0.20
+    train.learning_rate_min: 0.00004
+    train.learning_rate_max: 0.00025
+    train.weight_decay_min: 0.000005
+    train.weight_decay_max: 0.02
+    train.batch_size: [32, 64]
+    train.lambda_propensity_min: 0.6
+    train.lambda_propensity_max: 1.3
+    train.lambda_balance_min: 0.02
+    train.lambda_balance_max: 0.20
+    train.lambda_smooth_min: 0.02
+    train.lambda_smooth_max: 0.12
+    train.grad_clip_min: 0.5
+    train.grad_clip_max: 2.0
+    train.lambda_sepsis_min: 0.8
+    train.lambda_sepsis_max: 4.0
+    train.sepsis_pos_weight_min: 1.5
+    train.sepsis_pos_weight_max: 10.0
+
+optimize:
+  auto_prepare: true
+  reset_train_patient_limits: true
+  calibrate_threshold: true
+  threshold_target: "sepsis"
+  threshold_min: 0.05
+  threshold_max: 0.95
+  threshold_steps: 91
+  final_out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_goal_balanced_smoke"
+  output_config_path: "configs/final/final_goal_balanced_smoke.yaml"

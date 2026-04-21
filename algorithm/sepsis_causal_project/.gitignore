@@ -1,0 +1,16 @@
+# Python cache/build
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.venv/
+.pytest_cache/
+
+# Local training outputs
+data/artifacts/
+data/artifacts*/
+
+# Optuna local DBs
+*.db

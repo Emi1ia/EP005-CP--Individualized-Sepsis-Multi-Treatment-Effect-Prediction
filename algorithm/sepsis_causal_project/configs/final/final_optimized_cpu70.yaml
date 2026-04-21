@@ -1,0 +1,87 @@
+seed: 42
+paths:
+  data_root: c:/Users/emili/sepsis_project/data/challenge-2019/training
+  out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_optimized
+data:
+  train_dirs:
+  - training_setA
+  - training_setB
+  split_ratio:
+    train: 0.7
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+model:
+  hidden_size: 128
+  num_layers: 2
+  num_heads: 8
+  ff_dim: 384
+  dropout: 0.10953329082142721
+train:
+  epochs: 70
+  batch_size: 64
+  learning_rate: 0.00015822883706829836
+  weight_decay: 0.0016133417298932551
+  grad_clip: 1.0
+  early_stopping_patience: 5
+  num_workers: 16
+  lambda_propensity: 0.7039266572577779
+  lambda_balance: 0.07288266766214477
+  lambda_smooth: 0.030187652009640548
+  max_train_patients: null
+  max_val_patients: null
+tune:
+  method: bayes
+  direction: minimize
+  study_name: sepsis_hparam_tuning_focused_round2
+  n_trials: 12
+  max_total_trials: 22
+  timeout_sec: null
+  trial_epochs: 5
+  trial_patience: 2
+  max_train_patients: 6000
+  max_val_patients: 2000
+  search_space:
+    model.hidden_size:
+    - 96
+    - 128
+    - 160
+    model.num_heads:
+    - 8
+    model.num_layers:
+    - 2
+    - 3
+    - 4
+    model.ff_multiplier:
+    - 2
+    - 3
+    model.dropout_min: 0.08
+    model.dropout_max: 0.18
+    train.learning_rate_min: 5.0e-05
+    train.learning_rate_max: 0.0002
+    train.weight_decay_min: 1.0e-05
+    train.weight_decay_max: 0.01
+    train.batch_size:
+    - 32
+    - 64
+    train.lambda_propensity_min: 0.7
+    train.lambda_propensity_max: 1.2
+    train.lambda_balance_min: 0.03
+    train.lambda_balance_max: 0.18
+    train.lambda_smooth_min: 0.03
+    train.lambda_smooth_max: 0.1
+    train.grad_clip_min: 0.5
+    train.grad_clip_max: 2.0
+optimize:
+  auto_prepare: true
+  reset_train_patient_limits: true
+  calibrate_threshold: true
+  threshold_min: 0.05
+  threshold_max: 0.95
+  threshold_steps: 91
+  final_out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_optimized
+  output_config_path: configs/final/final_optimized_for_training.yaml
+eval:
+  threshold: 0.13

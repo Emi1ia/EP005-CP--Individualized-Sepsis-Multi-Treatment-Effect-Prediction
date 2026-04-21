@@ -1,0 +1,87 @@
+seed: 42
+paths:
+  data_root: c:/Users/emili/sepsis_project/data/challenge-2019/training
+  out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_treatment_policy
+data:
+  train_dirs:
+  - training_setA
+  - training_setB
+  split_ratio:
+    train: 0.7
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+model:
+  hidden_size: 96
+  num_layers: 2
+  num_heads: 8
+  ff_dim: 192
+  dropout: 0.17923162654612423
+train:
+  epochs: 20
+  batch_size: 64
+  learning_rate: 9.621703473953824e-05
+  weight_decay: 0.009368852855050864
+  grad_clip: 0.5122426045642356
+  early_stopping_patience: 5
+  num_workers: 0
+  lambda_propensity: 1.1018390261038906
+  lambda_balance: 0.06007975725060221
+  lambda_smooth: 0.05612598660712548
+  max_train_patients: null
+  max_val_patients: null
+tune:
+  method: bayes
+  direction: minimize
+  objective_metric: causal_combo
+  causal_objective_weights:
+    pehe: 1.0
+    ate_error: 1.0
+    policy_regret: 2.0
+  study_name: sepsis_hparam_tuning_treatment_policy
+  n_trials: 15
+  max_total_trials: 15
+  timeout_sec: null
+  trial_epochs: 5
+  trial_patience: 2
+  max_train_patients: 6000
+  max_val_patients: 2000
+  search_space:
+    model.hidden_size:
+    - 96
+    - 128
+    - 160
+    model.num_heads:
+    - 8
+    model.num_layers:
+    - 2
+    - 3
+    - 4
+    model.ff_multiplier:
+    - 2
+    - 3
+    model.dropout_min: 0.08
+    model.dropout_max: 0.18
+    train.learning_rate_min: 5.0e-05
+    train.learning_rate_max: 0.0002
+    train.weight_decay_min: 1.0e-05
+    train.weight_decay_max: 0.01
+    train.batch_size:
+    - 32
+    - 64
+    train.lambda_propensity_min: 0.7
+    train.lambda_propensity_max: 1.2
+    train.lambda_balance_min: 0.03
+    train.lambda_balance_max: 0.18
+    train.lambda_smooth_min: 0.03
+    train.lambda_smooth_max: 0.1
+    train.grad_clip_min: 0.5
+    train.grad_clip_max: 2.0
+optimize:
+  auto_prepare: true
+  reset_train_patient_limits: true
+  calibrate_threshold: false
+  final_out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_treatment_policy
+  output_config_path: configs/final/final_treatment_policy_for_training.yaml

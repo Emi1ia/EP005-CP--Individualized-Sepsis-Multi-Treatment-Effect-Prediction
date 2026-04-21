@@ -1,0 +1,18 @@
+# Large local data (do not commit)
+data/challenge-2019/
+data/mimic_demo/
+data/mimic_iv_demo_v2_2/
+data/raw_datasets/
+data/tmp_dl/
+data/sepsis_causal_artifacts/
+data/*.csv
+data/*.csv.gz
+data/*.json
+data/*.txt
+
+# Python caches
+**/__pycache__/
+**/*.py[cod]
+
+# Local envs
+**/.venv/

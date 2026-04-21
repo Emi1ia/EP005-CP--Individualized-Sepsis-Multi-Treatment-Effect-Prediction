@@ -1,0 +1,69 @@
+seed: 42
+
+paths:
+  data_root: "c:/Users/emili/sepsis_project/data/challenge-2019/training"
+  out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts"
+
+data:
+  train_dirs:
+    - "training_setA"
+    - "training_setB"
+  split_ratio:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+
+model:
+  hidden_size: 128
+  num_layers: 4
+  num_heads: 8
+  ff_dim: 256
+  dropout: 0.10
+
+train:
+  epochs: 20
+  batch_size: 64
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  grad_clip: 1.0
+  early_stopping_patience: 5
+  num_workers: 0
+  lambda_propensity: 1.0
+  lambda_balance: 0.1
+  lambda_smooth: 0.05
+  max_train_patients: null
+  max_val_patients: null
+
+tune:
+  method: "bayes"
+  direction: "minimize"
+  study_name: "sepsis_hparam_tuning_quick"
+  n_trials: 8
+  timeout_sec: null
+  trial_epochs: 4
+  trial_patience: 2
+  max_train_patients: 4000
+  max_val_patients: 1200
+  search_space:
+    model.hidden_size: [64, 96, 128, 160]
+    model.num_heads: [4, 8]
+    model.num_layers: [2, 3, 4]
+    model.ff_multiplier: [2, 3]
+    model.dropout_min: 0.05
+    model.dropout_max: 0.25
+    train.learning_rate_min: 0.00003
+    train.learning_rate_max: 0.0003
+    train.weight_decay_min: 0.000001
+    train.weight_decay_max: 0.02
+    train.batch_size: [32, 64]
+    train.lambda_propensity_min: 0.6
+    train.lambda_propensity_max: 1.5
+    train.lambda_balance_min: 0.02
+    train.lambda_balance_max: 0.3
+    train.lambda_smooth_min: 0.01
+    train.lambda_smooth_max: 0.12
+    train.grad_clip_min: 0.5
+    train.grad_clip_max: 2.0
