@@ -1,7 +1,0 @@
-patient_id,split,raw_path,prepared_path,length,septic_patient
-2,test,C:\Users\emili\sepsis_project\data\challenge-2019\training\training_setA\p000002.psv,C:\Users\emili\sepsis_project\data\sepsis_causal_artifacts\artifacts_smoke\prepared\patients\p000002.npz,23,0
-3,test,C:\Users\emili\sepsis_project\data\challenge-2019\training\training_setA\p000003.psv,C:\Users\emili\sepsis_project\data\sepsis_causal_artifacts\artifacts_smoke\prepared\patients\p000003.npz,48,0
-9,test,C:\Users\emili\sepsis_project\data\challenge-2019\training\training_setA\p000009.psv,C:\Users\emili\sepsis_project\data\sepsis_causal_artifacts\artifacts_smoke\prepared\patients\p000009.npz,258,1
-14,test,C:\Users\emili\sepsis_project\data\challenge-2019\training\training_setA\p000014.psv,C:\Users\emili\sepsis_project\data\sepsis_causal_artifacts\artifacts_smoke\prepared\patients\p000014.npz,42,0
-34,test,C:\Users\emili\sepsis_project\data\challenge-2019\training\training_setA\p000034.psv,C:\Users\emili\sepsis_project\data\sepsis_causal_artifacts\artifacts_smoke\prepared\patients\p000034.npz,13,1
-39,test,C:\Users\emili\sepsis_project\data\challenge-2019\training\training_setA\p000039.psv,C:\Users\emili\sepsis_project\data\sepsis_causal_artifacts\artifacts_smoke\prepared\patients\p000039.npz,45,0
