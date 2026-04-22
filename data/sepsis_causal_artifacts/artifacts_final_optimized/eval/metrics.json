@@ -1,0 +1,16 @@
+{
+  "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts_final_optimized\\model\\best_model.pt",
+  "n_test_sequences": 6051,
+  "n_test_timesteps": 229717,
+  "classification_threshold": 0.13,
+  "factual_metrics": {
+    "auroc": 0.5870278871063581,
+    "auprc": 0.22277094728687213,
+    "f1": 0.2699337430510192
+  },
+  "treatment_effect_metrics": {
+    "pehe": 0.03135300402021018,
+    "ate_error": 0.0037846406921744347,
+    "policy_regret": 0.00795021466910839
+  }
+}
