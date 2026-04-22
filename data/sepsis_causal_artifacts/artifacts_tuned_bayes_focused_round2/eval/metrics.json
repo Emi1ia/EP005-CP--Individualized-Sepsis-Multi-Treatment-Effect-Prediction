@@ -1,0 +1,15 @@
+{
+  "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts_tuned_bayes_focused_round2\\model\\best_model.pt",
+  "n_test_sequences": 6051,
+  "n_test_timesteps": 229717,
+  "factual_metrics": {
+    "auroc": 0.5871198825135474,
+    "auprc": 0.22272741392532994,
+    "f1": 0.027728630681323783
+  },
+  "treatment_effect_metrics": {
+    "pehe": 0.032294685436729434,
+    "ate_error": 0.005528345704078674,
+    "policy_regret": 0.012009534053504467
+  }
+}

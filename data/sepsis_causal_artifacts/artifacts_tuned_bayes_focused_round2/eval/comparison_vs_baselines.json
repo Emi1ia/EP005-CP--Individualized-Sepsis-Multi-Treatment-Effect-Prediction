@@ -1,0 +1,72 @@
+{
+  "run_date": "2026-04-18",
+  "focused_round2": {
+    "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts_tuned_bayes_focused_round2\\model\\best_model.pt",
+    "n_test_sequences": 6051,
+    "n_test_timesteps": 229717,
+    "factual_metrics": {
+      "auroc": 0.5871198825135474,
+      "auprc": 0.22272741392532994,
+      "f1": 0.027728630681323783
+    },
+    "treatment_effect_metrics": {
+      "pehe": 0.032294685436729434,
+      "ate_error": 0.005528345704078674,
+      "policy_regret": 0.012009534053504467
+    }
+  },
+  "baseline_current_artifacts": {
+    "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\model\\best_model.pt",
+    "n_test_sequences": 6051,
+    "n_test_timesteps": 229717,
+    "factual_metrics": {
+      "auroc": 0.5855962136972568,
+      "auprc": 0.22111409609277521,
+      "f1": 0.022981130974948236
+    },
+    "treatment_effect_metrics": {
+      "pehe": 0.03396517674467683,
+      "ate_error": 0.009837203659117222,
+      "policy_regret": 0.009262151084840298
+    }
+  },
+  "baseline_before_tuned15": {
+    "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\model\\best_model.pt",
+    "n_test_sequences": 6051,
+    "n_test_timesteps": 229717,
+    "factual_metrics": {
+      "auroc": 0.5871586251683538,
+      "auprc": 0.22294421503283324,
+      "f1": 0.02132943754565376
+    },
+    "treatment_effect_metrics": {
+      "pehe": 0.03100442883052425,
+      "ate_error": 0.005204032640904188,
+      "policy_regret": 0.008412056602537632
+    }
+  },
+  "delta_vs_current": {
+    "factual": {
+      "auroc": 0.0015236688162906242,
+      "auprc": 0.0016133178325547226,
+      "f1": 0.004747499706375547
+    },
+    "treatment_effect": {
+      "pehe": -0.001670491307947393,
+      "ate_error": -0.0043088579550385475,
+      "policy_regret": 0.0027473829686641693
+    }
+  },
+  "delta_vs_before_tuned15": {
+    "factual": {
+      "auroc": -3.8742654806411814e-05,
+      "auprc": -0.0002168011075033005,
+      "f1": 0.006399193135670021
+    },
+    "treatment_effect": {
+      "pehe": 0.0012902566062051833,
+      "ate_error": 0.00032431306317448616,
+      "policy_regret": 0.003597477450966835
+    }
+  }
+}
