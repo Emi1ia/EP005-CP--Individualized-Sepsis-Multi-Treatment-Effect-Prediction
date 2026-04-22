@@ -5,7 +5,7 @@ import {
   ResponsiveContainer, Cell, PieChart, Pie, ScatterChart, Scatter
 } from "recharts";
 
-// ─── THEME ────────────────────────────────────────────────────────────────────
+// Ini theme colours nya
 const C = {
   bg: "#050d1a",
   surface: "#0a1628",
@@ -27,7 +27,7 @@ const C = {
 const fontStack = `'IBM Plex Mono', 'Courier New', monospace`;
 const sansStack = `'IBM Plex Sans', 'Segoe UI', sans-serif`;
 
-// ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
+// Global Stylings
 const GlobalStyle = () => (
   <style>{`
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
@@ -54,7 +54,7 @@ const GlobalStyle = () => (
   `}</style>
 );
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
+// Template Helpers
 const card = (extra = "") => ({
   background: C.card,
   border: `1px solid ${C.border}`,
@@ -155,7 +155,7 @@ const DEMO_PATIENTS = [
   { name: "Patient C — Low Risk", age: 38, hr: 84, map: 82, lactate: 1.2, creatinine: 0.9, wbc: 10.8, temp: 37.4, vasopressor: 0, fluids: 1, antibiotics: 0, sofa: 2, hours: 3 },
 ];
 
-// ─── INFERENCE ENGINE (rule-based, clinically grounded mock) ──────────────────
+//INFERENCE ENGINE (rule-based, clinically grounded mock)
 function runInference(p) {
   const sofaNorm = p.sofa / 20;
   const lacNorm = Math.min(p.lactate / 10, 1);
@@ -203,7 +203,7 @@ const NAV_ITEMS = [
   { id: "research", icon: "⊙", label: "Research" },
 ];
 
-// ─── PAGES ────────────────────────────────────────────────────────────────────
+// Web Pages 
 
 // 1. HOME
 function HomePage({ onNavigate }) {
@@ -517,7 +517,7 @@ function ArchitecturePage() {
   );
 }
 
-// 5. PATIENT SIMULATOR (MOST IMPORTANT)
+// 5. PATIENT SIMULATOR
 function SimulatorPage() {
   const defaultPatient = { age: 62, hr: 104, map: 62, lactate: 3.2, creatinine: 1.8, wbc: 14.6, temp: 38.5, vasopressor: 0, fluids: 1, antibiotics: 1, sofa: 6, hours: 8 };
   const [patient, setPatient] = useState(defaultPatient);
@@ -985,7 +985,7 @@ function ResearchPage() {
   );
 }
 
-// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+// MAIN APLICATION
 export default function App() {
   const [page, setPage] = useState("home");
   const [sidebarOpen, setSidebarOpen] = useState(true);
