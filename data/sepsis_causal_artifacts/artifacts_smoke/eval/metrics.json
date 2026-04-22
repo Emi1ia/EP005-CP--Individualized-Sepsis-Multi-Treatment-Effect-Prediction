@@ -1,0 +1,43 @@
+{
+  "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_artifacts\\artifacts_smoke\\model\\best_model.pt",
+  "n_test_sequences": 6,
+  "n_test_timesteps": 429,
+  "classification_threshold": 0.5,
+  "sepsis_classification_threshold": 0.5,
+  "sepsis_target_mode": "current",
+  "sepsis_horizon_hours": 0,
+  "sepsis_patient_aggregation": "max",
+  "sepsis_patient_classification_threshold": 0.5,
+  "factual_metrics": {
+    "auroc": 0.5140489642184558,
+    "auprc": 0.19166910977710153,
+    "f1": 0.28378378378378377
+  },
+  "sepsis_metrics": {
+    "auroc": 0.6091687041564792,
+    "auprc": 0.06371692252787832,
+    "f1": 0.12371134020618557
+  },
+  "patient_sepsis_metrics": {
+    "auroc": 0.5,
+    "auprc": 0.6666666666666666,
+    "f1": 0.5
+  },
+  "factual_error_metrics": {
+    "mae": 0.5938849099727221,
+    "rmse": 0.6175169400054907
+  },
+  "sepsis_error_metrics": {
+    "mae": 0.3629159521320205,
+    "rmse": 0.3865821210694033
+  },
+  "patient_sepsis_error_metrics": {
+    "mae": 0.5324418842792511,
+    "rmse": 0.5431581941577576
+  },
+  "treatment_effect_metrics": {
+    "pehe": 0.0493724994992005,
+    "ate_error": 0.019150465726852417,
+    "policy_regret": 0.035989053547382355
+  }
+}

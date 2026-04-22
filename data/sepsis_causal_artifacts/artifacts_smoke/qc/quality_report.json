@@ -1,0 +1,675 @@
+{
+  "n_patients": 40,
+  "row_total": 1676,
+  "row_positive": 69,
+  "row_positive_frac": 0.04116945107398568,
+  "patient_positive_count": 7,
+  "patient_positive_frac": 0.175,
+  "sequence_length": {
+    "count": 40,
+    "p25": 20.5,
+    "median": 37.5,
+    "p75": 48.0,
+    "mean": 41.9
+  },
+  "onset_hour": {
+    "count": 7,
+    "p25": 8.0,
+    "median": 22.0,
+    "p75": 75.5,
+    "mean": 63.142857142857146
+  },
+  "non_monotonic_iculos_patients": 0,
+  "label_reversion_patients": 0,
+  "columns": [
+    {
+      "column": "HR",
+      "missing_frac": 0.08472553699284013,
+      "non_nan": 1534,
+      "total": 1676,
+      "min": 49.0,
+      "max": 155.5
+    },
+    {
+      "column": "O2Sat",
+      "missing_frac": 0.13365155131264916,
+      "non_nan": 1452,
+      "total": 1676,
+      "min": 79.0,
+      "max": 100.0
+    },
+    {
+      "column": "Temp",
+      "missing_frac": 0.6455847255369929,
+      "non_nan": 594,
+      "total": 1676,
+      "min": 35.0,
+      "max": 40.11
+    },
+    {
+      "column": "SBP",
+      "missing_frac": 0.2022673031026253,
+      "non_nan": 1337,
+      "total": 1676,
+      "min": 69.0,
+      "max": 200.0
+    },
+    {
+      "column": "MAP",
+      "missing_frac": 0.11276849642004771,
+      "non_nan": 1487,
+      "total": 1676,
+      "min": 20.0,
+      "max": 219.0
+    },
+    {
+      "column": "DBP",
+      "missing_frac": 0.48508353221957046,
+      "non_nan": 863,
+      "total": 1676,
+      "min": 34.0,
+      "max": 120.0
+    },
+    {
+      "column": "Resp",
+      "missing_frac": 0.12171837708830546,
+      "non_nan": 1472,
+      "total": 1676,
+      "min": 4.0,
+      "max": 55.5
+    },
+    {
+      "column": "EtCO2",
+      "missing_frac": 1.0,
+      "non_nan": 0,
+      "total": 1676,
+      "min": null,
+      "max": null
+    },
+    {
+      "column": "BaseExcess",
+      "missing_frac": 0.8824582338902148,
+      "non_nan": 197,
+      "total": 1676,
+      "min": -12.0,
+      "max": 24.0
+    },
+    {
+      "column": "HCO3",
+      "missing_frac": 0.9110978520286396,
+      "non_nan": 149,
+      "total": 1676,
+      "min": 12.0,
+      "max": 48.0
+    },
+    {
+      "column": "FiO2",
+      "missing_frac": 0.8615751789976134,
+      "non_nan": 232,
+      "total": 1676,
+      "min": 0.25,
+      "max": 1.0
+    },
+    {
+      "column": "pH",
+      "missing_frac": 0.8776849642004774,
+      "non_nan": 205,
+      "total": 1676,
+      "min": 7.12,
+      "max": 7.53
+    },
+    {
+      "column": "PaCO2",
+      "missing_frac": 0.9009546539379475,
+      "non_nan": 166,
+      "total": 1676,
+      "min": 22.0,
+      "max": 100.0
+    },
+    {
+      "column": "SaO2",
+      "missing_frac": 0.9576372315035799,
+      "non_nan": 71,
+      "total": 1676,
+      "min": 62.0,
+      "max": 99.0
+    },
+    {
+      "column": "AST",
+      "missing_frac": 0.9880668257756563,
+      "non_nan": 20,
+      "total": 1676,
+      "min": 8.0,
+      "max": 452.0
+    },
+    {
+      "column": "BUN",
+      "missing_frac": 0.9099045346062052,
+      "non_nan": 151,
+      "total": 1676,
+      "min": 5.0,
+      "max": 100.0
+    },
+    {
+      "column": "Alkalinephos",
+      "missing_frac": 0.9886634844868735,
+      "non_nan": 19,
+      "total": 1676,
+      "min": 55.0,
+      "max": 283.0
+    },
+    {
+      "column": "Calcium",
+      "missing_frac": 0.9474940334128878,
+      "non_nan": 88,
+      "total": 1676,
+      "min": 5.9,
+      "max": 11.1
+    },
+    {
+      "column": "Chloride",
+      "missing_frac": 0.9116945107398569,
+      "non_nan": 148,
+      "total": 1676,
+      "min": 85.0,
+      "max": 123.0
+    },
+    {
+      "column": "Creatinine",
+      "missing_frac": 0.9248210023866348,
+      "non_nan": 126,
+      "total": 1676,
+      "min": 0.3,
+      "max": 8.8
+    },
+    {
+      "column": "Bilirubin_direct",
+      "missing_frac": 1.0,
+      "non_nan": 0,
+      "total": 1676,
+      "min": null,
+      "max": null
+    },
+    {
+      "column": "Glucose",
+      "missing_frac": 0.8824582338902148,
+      "non_nan": 197,
+      "total": 1676,
+      "min": 51.0,
+      "max": 317.0
+    },
+    {
+      "column": "Lactate",
+      "missing_frac": 0.9552505966587113,
+      "non_nan": 75,
+      "total": 1676,
+      "min": 0.8,
+      "max": 4.7
+    },
+    {
+      "column": "Magnesium",
+      "missing_frac": 0.9206443914081146,
+      "non_nan": 133,
+      "total": 1676,
+      "min": 1.1,
+      "max": 2.5
+    },
+    {
+      "column": "Phosphate",
+      "missing_frac": 0.9457040572792362,
+      "non_nan": 91,
+      "total": 1676,
+      "min": 0.6,
+      "max": 10.5
+    },
+    {
+      "column": "Potassium",
+      "missing_frac": 0.886038186157518,
+      "non_nan": 191,
+      "total": 1676,
+      "min": 2.8,
+      "max": 6.3
+    },
+    {
+      "column": "Bilirubin_total",
+      "missing_frac": 0.9916467780429594,
+      "non_nan": 14,
+      "total": 1676,
+      "min": 0.3,
+      "max": 1.5
+    },
+    {
+      "column": "TroponinI",
+      "missing_frac": 0.9988066825775657,
+      "non_nan": 2,
+      "total": 1676,
+      "min": 0.3,
+      "max": 0.7
+    },
+    {
+      "column": "Hct",
+      "missing_frac": 0.889618138424821,
+      "non_nan": 185,
+      "total": 1676,
+      "min": 21.8,
+      "max": 46.0
+    },
+    {
+      "column": "Hgb",
+      "missing_frac": 0.9116945107398569,
+      "non_nan": 148,
+      "total": 1676,
+      "min": 7.3,
+      "max": 16.4
+    },
+    {
+      "column": "PTT",
+      "missing_frac": 0.9576372315035799,
+      "non_nan": 71,
+      "total": 1676,
+      "min": 21.3,
+      "max": 83.9
+    },
+    {
+      "column": "WBC",
+      "missing_frac": 0.9206443914081146,
+      "non_nan": 133,
+      "total": 1676,
+      "min": 2.1,
+      "max": 25.1
+    },
+    {
+      "column": "Fibrinogen",
+      "missing_frac": 0.9952267303102625,
+      "non_nan": 8,
+      "total": 1676,
+      "min": 124.0,
+      "max": 804.0
+    },
+    {
+      "column": "Platelets",
+      "missing_frac": 0.9325775656324582,
+      "non_nan": 113,
+      "total": 1676,
+      "min": 26.0,
+      "max": 759.0
+    },
+    {
+      "column": "Age",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 27.92,
+      "max": 87.8
+    },
+    {
+      "column": "Gender",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "column": "Unit1",
+      "missing_frac": 0.4803102625298329,
+      "non_nan": 871,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "column": "Unit2",
+      "missing_frac": 0.4803102625298329,
+      "non_nan": 871,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "column": "HospAdmTime",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": -1195.71,
+      "max": 0.94
+    },
+    {
+      "column": "ICULOS",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 1.0,
+      "max": 258.0
+    },
+    {
+      "column": "SepsisLabel",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    }
+  ],
+  "top_missing_columns": [
+    {
+      "column": "EtCO2",
+      "missing_frac": 1.0,
+      "non_nan": 0,
+      "total": 1676,
+      "min": null,
+      "max": null
+    },
+    {
+      "column": "Bilirubin_direct",
+      "missing_frac": 1.0,
+      "non_nan": 0,
+      "total": 1676,
+      "min": null,
+      "max": null
+    },
+    {
+      "column": "TroponinI",
+      "missing_frac": 0.9988066825775657,
+      "non_nan": 2,
+      "total": 1676,
+      "min": 0.3,
+      "max": 0.7
+    },
+    {
+      "column": "Fibrinogen",
+      "missing_frac": 0.9952267303102625,
+      "non_nan": 8,
+      "total": 1676,
+      "min": 124.0,
+      "max": 804.0
+    },
+    {
+      "column": "Bilirubin_total",
+      "missing_frac": 0.9916467780429594,
+      "non_nan": 14,
+      "total": 1676,
+      "min": 0.3,
+      "max": 1.5
+    },
+    {
+      "column": "Alkalinephos",
+      "missing_frac": 0.9886634844868735,
+      "non_nan": 19,
+      "total": 1676,
+      "min": 55.0,
+      "max": 283.0
+    },
+    {
+      "column": "AST",
+      "missing_frac": 0.9880668257756563,
+      "non_nan": 20,
+      "total": 1676,
+      "min": 8.0,
+      "max": 452.0
+    },
+    {
+      "column": "SaO2",
+      "missing_frac": 0.9576372315035799,
+      "non_nan": 71,
+      "total": 1676,
+      "min": 62.0,
+      "max": 99.0
+    },
+    {
+      "column": "PTT",
+      "missing_frac": 0.9576372315035799,
+      "non_nan": 71,
+      "total": 1676,
+      "min": 21.3,
+      "max": 83.9
+    },
+    {
+      "column": "Lactate",
+      "missing_frac": 0.9552505966587113,
+      "non_nan": 75,
+      "total": 1676,
+      "min": 0.8,
+      "max": 4.7
+    },
+    {
+      "column": "Calcium",
+      "missing_frac": 0.9474940334128878,
+      "non_nan": 88,
+      "total": 1676,
+      "min": 5.9,
+      "max": 11.1
+    },
+    {
+      "column": "Phosphate",
+      "missing_frac": 0.9457040572792362,
+      "non_nan": 91,
+      "total": 1676,
+      "min": 0.6,
+      "max": 10.5
+    },
+    {
+      "column": "Platelets",
+      "missing_frac": 0.9325775656324582,
+      "non_nan": 113,
+      "total": 1676,
+      "min": 26.0,
+      "max": 759.0
+    },
+    {
+      "column": "Creatinine",
+      "missing_frac": 0.9248210023866348,
+      "non_nan": 126,
+      "total": 1676,
+      "min": 0.3,
+      "max": 8.8
+    },
+    {
+      "column": "Magnesium",
+      "missing_frac": 0.9206443914081146,
+      "non_nan": 133,
+      "total": 1676,
+      "min": 1.1,
+      "max": 2.5
+    }
+  ],
+  "low_missing_columns": [
+    {
+      "column": "Age",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 27.92,
+      "max": 87.8
+    },
+    {
+      "column": "Gender",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "column": "HospAdmTime",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": -1195.71,
+      "max": 0.94
+    },
+    {
+      "column": "ICULOS",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 1.0,
+      "max": 258.0
+    },
+    {
+      "column": "SepsisLabel",
+      "missing_frac": 0.0,
+      "non_nan": 1676,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "column": "HR",
+      "missing_frac": 0.08472553699284013,
+      "non_nan": 1534,
+      "total": 1676,
+      "min": 49.0,
+      "max": 155.5
+    },
+    {
+      "column": "MAP",
+      "missing_frac": 0.11276849642004771,
+      "non_nan": 1487,
+      "total": 1676,
+      "min": 20.0,
+      "max": 219.0
+    },
+    {
+      "column": "Resp",
+      "missing_frac": 0.12171837708830546,
+      "non_nan": 1472,
+      "total": 1676,
+      "min": 4.0,
+      "max": 55.5
+    },
+    {
+      "column": "O2Sat",
+      "missing_frac": 0.13365155131264916,
+      "non_nan": 1452,
+      "total": 1676,
+      "min": 79.0,
+      "max": 100.0
+    },
+    {
+      "column": "SBP",
+      "missing_frac": 0.2022673031026253,
+      "non_nan": 1337,
+      "total": 1676,
+      "min": 69.0,
+      "max": 200.0
+    },
+    {
+      "column": "Unit1",
+      "missing_frac": 0.4803102625298329,
+      "non_nan": 871,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "column": "Unit2",
+      "missing_frac": 0.4803102625298329,
+      "non_nan": 871,
+      "total": 1676,
+      "min": 0.0,
+      "max": 1.0
+    },
+    {
+      "column": "DBP",
+      "missing_frac": 0.48508353221957046,
+      "non_nan": 863,
+      "total": 1676,
+      "min": 34.0,
+      "max": 120.0
+    },
+    {
+      "column": "Temp",
+      "missing_frac": 0.6455847255369929,
+      "non_nan": 594,
+      "total": 1676,
+      "min": 35.0,
+      "max": 40.11
+    },
+    {
+      "column": "FiO2",
+      "missing_frac": 0.8615751789976134,
+      "non_nan": 232,
+      "total": 1676,
+      "min": 0.25,
+      "max": 1.0
+    }
+  ],
+  "plausibility": {
+    "HR": {
+      "outside": 0,
+      "observed": 1534,
+      "outside_frac": 0.0
+    },
+    "O2Sat": {
+      "outside": 0,
+      "observed": 1452,
+      "outside_frac": 0.0
+    },
+    "Temp": {
+      "outside": 0,
+      "observed": 594,
+      "outside_frac": 0.0
+    },
+    "SBP": {
+      "outside": 0,
+      "observed": 1337,
+      "outside_frac": 0.0
+    },
+    "MAP": {
+      "outside": 1,
+      "observed": 1487,
+      "outside_frac": 0.0006724949562878278
+    },
+    "DBP": {
+      "outside": 0,
+      "observed": 863,
+      "outside_frac": 0.0
+    },
+    "Resp": {
+      "outside": 0,
+      "observed": 1472,
+      "outside_frac": 0.0
+    },
+    "pH": {
+      "outside": 0,
+      "observed": 205,
+      "outside_frac": 0.0
+    },
+    "FiO2": {
+      "outside": 0,
+      "observed": 232,
+      "outside_frac": 0.0
+    },
+    "Lactate": {
+      "outside": 0,
+      "observed": 75,
+      "outside_frac": 0.0
+    },
+    "Creatinine": {
+      "outside": 0,
+      "observed": 126,
+      "outside_frac": 0.0
+    },
+    "WBC": {
+      "outside": 0,
+      "observed": 133,
+      "outside_frac": 0.0
+    },
+    "Platelets": {
+      "outside": 0,
+      "observed": 113,
+      "outside_frac": 0.0
+    }
+  },
+  "treatment_columns_present": [],
+  "has_explicit_treatment_columns": false,
+  "treatment_columns_expected_not_found": [
+    "Antibiotic",
+    "Antibiotics",
+    "IVFluid",
+    "FluidBolus",
+    "Vasopressor",
+    "Norepinephrine"
+  ]
+}
