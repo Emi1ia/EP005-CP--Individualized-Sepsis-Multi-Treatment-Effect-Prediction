@@ -1,0 +1,43 @@
+{
+  "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts_final_patient_horizon\\model\\best_model.pt",
+  "n_test_sequences": 6051,
+  "n_test_timesteps": 229717,
+  "classification_threshold": 0.5,
+  "sepsis_classification_threshold": 0.5,
+  "sepsis_target_mode": "future_horizon",
+  "sepsis_horizon_hours": 12,
+  "sepsis_patient_aggregation": "max",
+  "sepsis_patient_classification_threshold": 0.5399999999999999,
+  "factual_metrics": {
+    "auroc": 0.5698110897424786,
+    "auprc": 0.20538719780618633,
+    "f1": 0.009258167236702442
+  },
+  "sepsis_metrics": {
+    "auroc": 0.7998591848653861,
+    "auprc": 0.1731827670591501,
+    "f1": 0.2366014910676607
+  },
+  "patient_sepsis_metrics": {
+    "auroc": 0.8097878477783711,
+    "auprc": 0.42599676053101015,
+    "f1": 0.3836589698046181
+  },
+  "factual_error_metrics": {
+    "mae": 0.24353047025197957,
+    "rmse": 0.3511301000445802
+  },
+  "sepsis_error_metrics": {
+    "mae": 0.09829384072785874,
+    "rmse": 0.19114601069024512
+  },
+  "patient_sepsis_error_metrics": {
+    "mae": 0.15498359237925768,
+    "rmse": 0.23638726837140536
+  },
+  "treatment_effect_metrics": {
+    "pehe": 0.043327473275634104,
+    "ate_error": 0.008686279878020287,
+    "policy_regret": 0.00870609749108553
+  }
+}
