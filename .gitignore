@@ -6,3 +6,7 @@
 
 # Local envs
 **/.venv/
+
+# Exclude oversized local archive bundle (not GitHub-friendly)
+data/sepsis_causal_artifacts_bundle/
+*.tar
