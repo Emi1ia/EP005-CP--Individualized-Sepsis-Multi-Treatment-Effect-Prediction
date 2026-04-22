@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import datasetInfo from "./data/dataset_audit_summary.json";
+import train from "./data/dataset_audit_summary.json";
 import {
   LineChart, Line, BarChart, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis,
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, Cell, PieChart, Pie, ScatterChart, Scatter
 } from "recharts";
 
-// Ini theme colours nya
+// ─── THEME ────────────────────────────────────────────────────────────────────
 const C = {
   bg: "#050d1a",
   surface: "#0a1628",
@@ -28,7 +28,7 @@ const C = {
 const fontStack = `'IBM Plex Mono', 'Courier New', monospace`;
 const sansStack = `'IBM Plex Sans', 'Segoe UI', sans-serif`;
 
-// Global Stylings
+// ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
 const GlobalStyle = () => (
   <style>{`
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
@@ -55,7 +55,7 @@ const GlobalStyle = () => (
   `}</style>
 );
 
-// Template Helpers
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 const card = (extra = "") => ({
   background: C.card,
   border: `1px solid ${C.border}`,
@@ -121,9 +121,23 @@ const RiskGauge = ({ value, label, color }) => {
   );
 };
 
+// DATA -------
+// Total no of patients seta +setb
+const totalPatients = (train.sets.training_setA.n_patients + train.sets.training_setB.n_patients).toLocaleString();
+
+// Total Sepsis patients in seta + setb
+const sepsisCases = (train.sets.training_setA.septic_patients + train.sets.training_setB.septic_patients).toLocaleString();
+
+const features = train.sets.training_setA.columns.length;
+
+const sepsisRate = (train.sets.training_setA.septic_patient_frac * 100).toFixed(1) + "%";
+const avgLOS = train.sets.training_setA.seq_len.mean.toFixed(1) + " hrs";
+const medianLOS = train.sets.training_setA.seq_len.median + " hrs";
+const totalRows = train.sets.training_setA.total_rows.toLocaleString();
+
 // ─── MOCK DATA ────────────────────────────────────────────────────────────────
 const ageDistribution = [
-  { age: "18-30", count: 45, pct: 9 }, { age: "31-45", count: 120, pct: 24 },
+  { age: "14-100", count: 45, pct: 20 }, { age: "31-45", count: 120, pct: 24 },
   { age: "46-60", count: 178, pct: 36 }, { age: "61-75", count: 132, pct: 26 },
   { age: "76+", count: 25, pct: 5 },
 ];
@@ -150,13 +164,8 @@ const shockProgression = [
   { hour: 18, risk: 41 }, { hour: 24, risk: 52 }, { hour: 30, risk: 61 }, { hour: 36, risk: 68 },
 ];
 
-const DEMO_PATIENTS = [
-  { name: "Patient A — High Risk", age: 68, hr: 112, map: 58, lactate: 4.2, creatinine: 2.8, wbc: 18.4, temp: 38.9, vasopressor: 1, fluids: 2, antibiotics: 1, sofa: 8, hours: 12 },
-  { name: "Patient B — Moderate", age: 52, hr: 96, map: 72, lactate: 2.1, creatinine: 1.4, wbc: 13.2, temp: 38.1, vasopressor: 0, fluids: 1, antibiotics: 1, sofa: 4, hours: 6 },
-  { name: "Patient C — Low Risk", age: 38, hr: 84, map: 82, lactate: 1.2, creatinine: 0.9, wbc: 10.8, temp: 37.4, vasopressor: 0, fluids: 1, antibiotics: 0, sofa: 2, hours: 3 },
-];
 
-//INFERENCE ENGINE (rule-based, clinically grounded mock)
+// ─── INFERENCE ENGINE (rule-based, clinically grounded mock) ──────────────────
 function runInference(p) {
   const sofaNorm = p.sofa / 20;
   const lacNorm = Math.min(p.lactate / 10, 1);
@@ -204,7 +213,7 @@ const NAV_ITEMS = [
   { id: "research", icon: "⊙", label: "Research" },
 ];
 
-// Web Pages 
+// ─── PAGES ────────────────────────────────────────────────────────────────────
 
 // 1. HOME
 function HomePage({ onNavigate }) {
@@ -215,7 +224,7 @@ function HomePage({ onNavigate }) {
   }, []);
 
   const vitals = [
-    { label: "HR", value: 88 + Math.sin(tick * 0.2) * 8, unit: "bpm", color: C.green },
+    { label: "HR", value: 1002 + Math.sin(tick * 0.2) * 8, unit: "bpm", color: C.green },
     { label: "MAP", value: 72 + Math.sin(tick * 0.15) * 5, unit: "mmHg", color: C.accent },
     { label: "SpO₂", value: 97 + Math.sin(tick * 0.1) * 1, unit: "%", color: C.teal },
     { label: "Lactate", value: (2.1 + Math.sin(tick * 0.08) * 0.2).toFixed(1), unit: "mmol/L", color: C.yellow },
@@ -269,10 +278,10 @@ function HomePage({ onNavigate }) {
 
       {/* KEY STATS */}
       <div style={{ padding: "40px 0", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16 }}>
-        <MetricCard label="Total Patients" value="500" icon="👥" color={C.accent} />
+        <MetricCard label="Total Patients" value={totalPatients} icon="👥" color={C.accent} />
         <MetricCard label="ICU Stays" value="500" icon="🏥" color={C.teal} />
-        <MetricCard label="Sepsis Cases" value="500" icon="⚕" color={C.red} />
-        <MetricCard label="Clinical Features" value="47" icon="📊" color={C.purple} />
+        <MetricCard label="Sepsis Cases" value={sepsisCases} icon="⚕" color={C.red} />
+        <MetricCard label="Clinical Features" value={features} icon="📊" color={C.purple} />
         <MetricCard label="Time-Series Vars" value="18" icon="⌁" color={C.yellow} />
         <MetricCard label="Treatment Arms" value="4" icon="💊" color={C.green} />
       </div>
@@ -297,18 +306,20 @@ function HomePage({ onNavigate }) {
 }
 
 // 2. OVERVIEW
-function OverviewPage() {
+function OverviewPage() { 
+
+
   const stats = [
-    { label: "Total Patients", value: "", desc: "Adult ICU admissions", color: C.accent },
-    { label: "Sepsis Cases", value: "500", desc: "Sepsis-3 criteria", color: C.red },
-    { label: "Avg SOFA Score", value: "5.2", desc: "Severity of illness", color: C.yellow },
-    { label: "28-Day Mortality", value: "23.4%", desc: "Primary outcome", color: C.purple },
-    { label: "Features Used", value: "47", desc: "Clinical variables", color: C.teal },
-    { label: "Time-Series Vars", value: "18", desc: "Hourly measurements", color: C.green },
+    { label: "Total Patients", value: totalPatients, color: C.accent },
+    { label: "Sepsis Cases", value: sepsisCases, color: C.red },
+    { label: "Avg SOFA Score", value: "5.2", color: C.yellow },
+    { label: "28-Day Mortality", value: "23.4%", color: C.purple },
+    { label: "Features Used", value: features, color: C.teal },
+    { label: "Time-Series Vars", value: "18", color: C.green },
   ];
   return (
     <div className="fadeIn">
-      <SectionHeader title="Dataset Overview" subtitle="Summary statistics from the synthetic ICU dataset based on MIMIC-III schema" badge="500 patients" />
+      <SectionHeader title="Dataset Overview" subtitle="Summary statistics from the synthetic ICU dataset based on MIMIC-III schema" badge={`${totalPatients} patients`} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 14, marginBottom: 32 }}>
         {stats.map(s => (
           <div key={s.label} style={{ ...card(), padding: 18 }}>
@@ -518,7 +529,7 @@ function ArchitecturePage() {
   );
 }
 
-// 5. PATIENT SIMULATOR
+// 5. PATIENT SIMULATOR (MOST IMPORTANT)
 function SimulatorPage() {
   const defaultPatient = { age: 62, hr: 104, map: 62, lactate: 3.2, creatinine: 1.8, wbc: 14.6, temp: 38.5, vasopressor: 0, fluids: 1, antibiotics: 1, sofa: 6, hours: 8 };
   const [patient, setPatient] = useState(defaultPatient);
@@ -559,16 +570,6 @@ function SimulatorPage() {
   return (
     <div className="fadeIn">
       <SectionHeader title="Patient Simulator" subtitle="Enter or adjust patient parameters and run causal inference to get individualized treatment recommendations" badge="Inference Engine" />
-      {/* Presets */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-        {DEMO_PATIENTS.map(dp => (
-          <button key={dp.name} onClick={() => loadPreset(dp)}
-            style={{ background: C.surface, color: C.muted, border: `1px solid ${C.border}`, borderRadius: 6, padding: "6px 14px", fontSize: 11, cursor: "pointer", fontFamily: fontStack }}>
-            {dp.name}
-          </button>
-        ))}
-      </div>
-
       <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: 16 }}>
         {/* Input Panel */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -680,7 +681,6 @@ function SimulatorPage() {
 // 6. COUNTERFACTUAL ANALYSIS
 function CounterfactualPage() {
   const [patientPreset, setPatientPreset] = useState(0);
-  const p = DEMO_PATIENTS[patientPreset];
   const { name, ...pat } = p;
   const result = runInference(pat);
 
@@ -692,15 +692,6 @@ function CounterfactualPage() {
   return (
     <div className="fadeIn">
       <SectionHeader title="Counterfactual Analysis" subtitle="Compare predicted outcomes across all treatment scenarios for the same patient" badge="ITE Estimation" />
-      <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
-        {DEMO_PATIENTS.map((dp, i) => (
-          <button key={dp.name} onClick={() => setPatientPreset(i)}
-            style={{ background: patientPreset === i ? C.accent + "20" : C.surface, color: patientPreset === i ? C.accent : C.muted, border: `1px solid ${patientPreset === i ? C.accent : C.border}`, borderRadius: 6, padding: "6px 14px", fontSize: 11, cursor: "pointer", fontFamily: fontStack }}>
-            {dp.name}
-          </button>
-        ))}
-      </div>
-
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
         <div style={card()}>
           <h3 style={{ fontSize: 12, color: C.muted, fontFamily: fontStack, textTransform: "uppercase", letterSpacing: 1, marginBottom: 14 }}>Outcome Comparison — All Scenarios</h3>
@@ -986,7 +977,7 @@ function ResearchPage() {
   );
 }
 
-// MAIN APLICATION
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState("home");
   const [sidebarOpen, setSidebarOpen] = useState(true);
