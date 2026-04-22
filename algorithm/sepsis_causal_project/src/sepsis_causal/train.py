@@ -143,6 +143,17 @@ def run_train_with_paths(
         train_csv,
         max_patients=train_cfg.get("max_train_patients"),
         seed=seed + 11,
+        augment=bool(train_cfg.get("augmentation_enabled", False)),
+        augment_cfg={
+            "positive_only": bool(train_cfg.get("augmentation_positive_only", True)),
+            "apply_prob": float(train_cfg.get("augmentation_apply_prob", 1.0)),
+            "noise_std": float(train_cfg.get("augmentation_noise_std", 0.0)),
+            "scale_std": float(train_cfg.get("augmentation_scale_std", 0.0)),
+            "feature_dropout_prob": float(train_cfg.get("augmentation_feature_dropout_prob", 0.0)),
+            "time_dropout_prob": float(train_cfg.get("augmentation_time_dropout_prob", 0.0)),
+            "value_dim": train_cfg.get("augmentation_value_dim", None),
+            "value_clip": train_cfg.get("augmentation_value_clip", 8.0),
+        },
     )
     ds_val = PatientSequenceDataset(
         val_csv,

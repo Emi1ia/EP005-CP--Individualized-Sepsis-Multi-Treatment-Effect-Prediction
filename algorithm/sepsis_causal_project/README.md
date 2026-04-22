@@ -30,7 +30,7 @@ Use real treatment-effect claims only after replacing the simulator with real tr
 ## Setup
 
 ```bash
-cd c:/Users/emili/sepsis_project/algorithm/sepsis_causal_project
+cd c:/Users/emili/sepsis_project/algorithm/EP005-CP--Individualized-Sepsis-Multi-Treatment-Effect-Prediction/algorithm/sepsis_causal_project
 python -m venv .venv
 .venv/Scripts/activate
 pip install -e .
@@ -41,7 +41,7 @@ pip install -e .
 From PowerShell:
 
 ```powershell
-cd c:\Users\emili\sepsis_project\algorithm\sepsis_causal_project
+cd c:\Users\emili\sepsis_project\algorithm\EP005-CP--Individualized-Sepsis-Multi-Treatment-Effect-Prediction\algorithm\sepsis_causal_project
 
 # Set PhysioNet credentials for restricted datasets (MIMIC-IV)
 $env:PHYSIONET_USERNAME = "your_username"
@@ -67,6 +67,10 @@ Check status:
 ```powershell
 python .\scripts\check_dataset_status.py --data-root "c:\Users\emili\sepsis_project\data"
 ```
+
+Note: current configs use output roots under `c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/...`.
+If you want fully self-contained outputs inside this moved repo, set `paths.out_dir` (and `optimize.final_out_dir`) to paths under:
+`c:/Users/emili/sepsis_project/algorithm/EP005-CP--Individualized-Sepsis-Multi-Treatment-Effect-Prediction/data/`.
 
 ## Run end to end
 
@@ -109,7 +113,7 @@ Quick grid baseline:
 python -m sepsis_causal.cli tune --config configs/tuning/tune_grid_quick.yaml
 ```
 
-See `TUNING_REPORT.md` for a concrete Bayesian-vs-grid comparison and recommended tuned config.
+Use the tuned snapshots in `configs/tuning/` (for example `tuned_bayes_best.yaml`) and the generated study artifacts under `.../artifacts/tuning/<study_name>/` for Bayesian-vs-grid comparisons.
 
 Tuning outputs:
 
@@ -164,6 +168,18 @@ To upsample septic patients in training without changing raw files:
 - `train.sampler_positive_fraction` (for example `0.5`)
 - `train.sampler_num_samples` (`null` uses one epoch worth of samples)
 - `train.sampler_replacement` (`true` recommended)
+
+### Optional Training Augmentation
+
+To improve robustness for rare positive trajectories, add training-only augmentation on value channels:
+
+- `train.augmentation_enabled: true`
+- `train.augmentation_positive_only: true` (augment septic-patient sequences only)
+- `train.augmentation_apply_prob` (for example `0.8` to `1.0`)
+- `train.augmentation_noise_std` (for example `0.01` to `0.04`)
+- `train.augmentation_scale_std` (for example `0.02` to `0.08`)
+- `train.augmentation_feature_dropout_prob` (for example `0.0` to `0.03`)
+- `train.augmentation_time_dropout_prob` (for example `0.0` to `0.02`)
 
 ## Outputs
 

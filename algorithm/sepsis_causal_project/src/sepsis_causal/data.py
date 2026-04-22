@@ -8,6 +8,8 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
+from .constants import FEATURE_COLS
+
 
 class PatientSequenceDataset(Dataset):
     def __init__(
@@ -15,6 +17,8 @@ class PatientSequenceDataset(Dataset):
         split_csv: Path,
         max_patients: int | None = None,
         seed: int = 42,
+        augment: bool = False,
+        augment_cfg: dict[str, Any] | None = None,
     ):
         self.df = pd.read_csv(split_csv)
         if max_patients is not None and max_patients < len(self.df):
@@ -26,9 +30,50 @@ class PatientSequenceDataset(Dataset):
         if self.df.empty:
             raise ValueError(f"Empty split file: {split_csv}")
         self._cached_patient_sepsis_label: np.ndarray | None = None
+        self.augment = bool(augment)
+        cfg = augment_cfg or {}
+        self.aug_positive_only = bool(cfg.get("positive_only", True))
+        self.aug_apply_prob = float(np.clip(cfg.get("apply_prob", 1.0), 0.0, 1.0))
+        self.aug_noise_std = float(max(0.0, cfg.get("noise_std", 0.0)))
+        self.aug_scale_std = float(max(0.0, cfg.get("scale_std", 0.0)))
+        self.aug_feature_dropout_prob = float(np.clip(cfg.get("feature_dropout_prob", 0.0), 0.0, 1.0))
+        self.aug_time_dropout_prob = float(np.clip(cfg.get("time_dropout_prob", 0.0), 0.0, 1.0))
+        raw_value_dim = cfg.get("value_dim", len(FEATURE_COLS))
+        if raw_value_dim is None:
+            raw_value_dim = len(FEATURE_COLS)
+        self.aug_value_dim = int(max(1, raw_value_dim))
+        raw_clip = cfg.get("value_clip", 8.0)
+        self.aug_value_clip = None if raw_clip is None else float(max(0.0, raw_clip))
+        self._rng = np.random.default_rng(seed + 7919)
 
     def __len__(self) -> int:
         return len(self.df)
+
+    def _augment_x(self, x: np.ndarray) -> np.ndarray:
+        out = x.copy()
+        value_dim = int(min(max(1, self.aug_value_dim), out.shape[1]))
+        xv = out[:, :value_dim]
+
+        if self.aug_scale_std > 0:
+            scale = self._rng.normal(loc=1.0, scale=self.aug_scale_std, size=(1, value_dim)).astype(np.float32)
+            xv *= scale
+
+        if self.aug_noise_std > 0:
+            xv += self._rng.normal(loc=0.0, scale=self.aug_noise_std, size=xv.shape).astype(np.float32)
+
+        if self.aug_feature_dropout_prob > 0:
+            drop_mask = self._rng.random(size=xv.shape) < self.aug_feature_dropout_prob
+            xv[drop_mask] = 0.0
+
+        if self.aug_time_dropout_prob > 0:
+            t_drop = self._rng.random(size=(xv.shape[0],)) < self.aug_time_dropout_prob
+            xv[t_drop, :] = 0.0
+
+        if self.aug_value_clip is not None and self.aug_value_clip > 0:
+            np.clip(xv, -self.aug_value_clip, self.aug_value_clip, out=xv)
+
+        out[:, :value_dim] = xv
+        return out
 
     def __getitem__(self, idx: int) -> dict[str, Any]:
         row = self.df.iloc[idx]
@@ -38,6 +83,10 @@ class PatientSequenceDataset(Dataset):
         y = payload["y"].astype(np.float32)
         y_all = payload["y_all"].astype(np.float32)
         sepsis_label = payload["sepsis_label"].astype(np.float32)
+        if self.augment and (self._rng.random() < self.aug_apply_prob):
+            is_positive = bool(np.max(sepsis_label) >= 1.0)
+            if (not self.aug_positive_only) or is_positive:
+                x = self._augment_x(x)
 
         return {
             "x": x,

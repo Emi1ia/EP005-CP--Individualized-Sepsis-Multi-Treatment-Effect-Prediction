@@ -137,6 +137,42 @@ def _sample_bayes(
                 float(search_space.get("train.sampler_positive_fraction_max", 0.70)),
             )
         )
+    if bool(base_train_cfg.get("augmentation_enabled", False)):
+        params["train.augmentation_noise_std"] = float(
+            trial.suggest_float(
+                "train.augmentation_noise_std",
+                float(search_space.get("train.augmentation_noise_std_min", 0.0)),
+                float(search_space.get("train.augmentation_noise_std_max", 0.08)),
+            )
+        )
+        params["train.augmentation_scale_std"] = float(
+            trial.suggest_float(
+                "train.augmentation_scale_std",
+                float(search_space.get("train.augmentation_scale_std_min", 0.0)),
+                float(search_space.get("train.augmentation_scale_std_max", 0.15)),
+            )
+        )
+        params["train.augmentation_feature_dropout_prob"] = float(
+            trial.suggest_float(
+                "train.augmentation_feature_dropout_prob",
+                float(search_space.get("train.augmentation_feature_dropout_prob_min", 0.0)),
+                float(search_space.get("train.augmentation_feature_dropout_prob_max", 0.08)),
+            )
+        )
+        params["train.augmentation_time_dropout_prob"] = float(
+            trial.suggest_float(
+                "train.augmentation_time_dropout_prob",
+                float(search_space.get("train.augmentation_time_dropout_prob_min", 0.0)),
+                float(search_space.get("train.augmentation_time_dropout_prob_max", 0.05)),
+            )
+        )
+        params["train.augmentation_apply_prob"] = float(
+            trial.suggest_float(
+                "train.augmentation_apply_prob",
+                float(search_space.get("train.augmentation_apply_prob_min", 0.65)),
+                float(search_space.get("train.augmentation_apply_prob_max", 1.0)),
+            )
+        )
     return params
 
 
@@ -160,6 +196,11 @@ def _sample_grid(trial: optuna.Trial, grid_space: dict[str, list[Any]]) -> dict[
         "train.lambda_sepsis": float(p.get("train.lambda_sepsis", 1.0)),
         "train.sepsis_pos_weight": float(p.get("train.sepsis_pos_weight", 1.0)),
         "train.sampler_positive_fraction": float(p.get("train.sampler_positive_fraction", 0.5)),
+        "train.augmentation_noise_std": float(p.get("train.augmentation_noise_std", 0.0)),
+        "train.augmentation_scale_std": float(p.get("train.augmentation_scale_std", 0.0)),
+        "train.augmentation_feature_dropout_prob": float(p.get("train.augmentation_feature_dropout_prob", 0.0)),
+        "train.augmentation_time_dropout_prob": float(p.get("train.augmentation_time_dropout_prob", 0.0)),
+        "train.augmentation_apply_prob": float(p.get("train.augmentation_apply_prob", 1.0)),
     }
 
 
