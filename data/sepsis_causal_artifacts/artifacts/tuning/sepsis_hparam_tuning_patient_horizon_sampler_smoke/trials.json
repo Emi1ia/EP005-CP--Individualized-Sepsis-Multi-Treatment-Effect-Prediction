@@ -1,0 +1,49 @@
+{
+  "trials": [
+    {
+      "number": 0,
+      "state": "TrialState.COMPLETE",
+      "value": 2.0072792520203073,
+      "params": {
+        "model.hidden_size": 128,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 2,
+        "model.num_layers": 4,
+        "model.dropout": 0.15213380140918506,
+        "train.learning_rate": 0.00014642013631019512,
+        "train.weight_decay": 5.930845185621574e-06,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 0.7486373774747933,
+        "train.lambda_balance": 0.030398696602619617,
+        "train.lambda_smooth": 0.02778090851688602,
+        "train.grad_clip": 0.9563633644393066,
+        "train.lambda_sepsis": 3.0990257265289514,
+        "train.sepsis_pos_weight": 6.319450186421157,
+        "train.sampler_positive_fraction": 0.3810531130891188
+      },
+      "user_attrs": {
+        "best_epoch": 1,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_patient_horizon_sampler_smoke\\trial_0000\\model\\best_model.pt",
+        "best_val_total": 4.557971477508545,
+        "objective_metric": "hybrid_combo",
+        "objective_value": 2.0072792520203073,
+        "val_ate_error": 0.032989636063575745,
+        "val_factual_auprc": 0.15375650643427863,
+        "val_factual_auroc": 0.5157771072691191,
+        "val_factual_f1": 0.0,
+        "val_patient_sepsis_auprc": 0.3749233223895296,
+        "val_patient_sepsis_auroc": 0.6723273964516785,
+        "val_patient_sepsis_f1": 0.1973159231048241,
+        "val_patient_sepsis_mae": 0.4777885001996332,
+        "val_patient_sepsis_rmse": 0.4833779293604612,
+        "val_pehe": 0.055916394129256884,
+        "val_policy_regret": 0.03134738653898239,
+        "val_sepsis_auprc": 0.14661822091572127,
+        "val_sepsis_auroc": 0.7217108530111966,
+        "val_sepsis_f1": 0.2287557603686636,
+        "val_sepsis_mae": 0.3828189097248073,
+        "val_sepsis_rmse": 0.39828764948548134
+      }
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "trials": [
+    {
+      "number": 0,
+      "state": "TrialState.COMPLETE",
+      "value": 2.6160029361122534,
+      "params": {
+        "model.hidden_size": 96,
+        "model.num_heads": 4,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 3,
+        "model.dropout": 0.2439819704323989,
+        "train.learning_rate": 0.0002039688726477339,
+        "train.weight_decay": 8.189867664214776e-06,
+        "train.batch_size": 64,
+        "train.lambda_propensity": 0.873818018663584,
+        "train.lambda_balance": 0.08283072221077194,
+        "train.lambda_smooth": 0.029251420662620615
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0000\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 1,
+      "state": "TrialState.COMPLETE",
+      "value": 3.7837900989934017,
+      "params": {
+        "model.hidden_size": 96,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 2,
+        "model.num_layers": 3,
+        "model.dropout": 0.17150897038028767,
+        "train.learning_rate": 4.442683535992552e-05,
+        "train.weight_decay": 1.9045345374033528e-06,
+        "train.batch_size": 64,
+        "train.lambda_propensity": 1.327557613304815,
+        "train.lambda_balance": 0.045633479761632394,
+        "train.lambda_smooth": 0.012746939181487582
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0001\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 2,
+      "state": "TrialState.COMPLETE",
+      "value": 3.279142473873339,
+      "params": {
+        "model.hidden_size": 64,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 4,
+        "model.dropout": 0.08697089110510542,
+        "train.learning_rate": 0.0002797086405534444,
+        "train.weight_decay": 0.00215709625035583,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 1.1381099809299766,
+        "train.lambda_balance": 0.24279415391108747,
+        "train.lambda_smooth": 0.012459466554460985
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0002\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 3,
+      "state": "TrialState.COMPLETE",
+      "value": 3.7609345348257768,
+      "params": {
+        "model.hidden_size": 160,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 2,
+        "model.num_layers": 4,
+        "model.dropout": 0.06491012873595417,
+        "train.learning_rate": 0.000291077201823622,
+        "train.weight_decay": 0.002096273367245242,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 1.3339152856093506,
+        "train.lambda_balance": 0.13563092984672628,
+        "train.lambda_smooth": 0.0611971030493036
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0003\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 4,
+      "state": "TrialState.COMPLETE",
+      "value": 3.6544915876890482,
+      "params": {
+        "model.hidden_size": 64,
+        "model.num_heads": 4,
+        "model.ff_multiplier": 2,
+        "model.num_layers": 4,
+        "model.dropout": 0.17751149427104262,
+        "train.learning_rate": 0.0002313843584146905,
+        "train.weight_decay": 0.0001074015520903269,
+        "train.batch_size": 64,
+        "train.lambda_propensity": 1.2847065437552077,
+        "train.lambda_balance": 0.09144147053340815,
+        "train.lambda_smooth": 0.06792244674173868
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0004\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 5,
+      "state": "TrialState.COMPLETE",
+      "value": 2.292665481567383,
+      "params": {
+        "model.hidden_size": 96,
+        "model.num_heads": 4,
+        "model.ff_multiplier": 2,
+        "model.num_layers": 3,
+        "model.dropout": 0.13207658460712596,
+        "train.learning_rate": 0.00017087258644559537,
+        "train.weight_decay": 9.639794432729028e-06,
+        "train.batch_size": 64,
+        "train.lambda_propensity": 0.745099158528604,
+        "train.lambda_balance": 0.2479929176624624,
+        "train.lambda_smooth": 0.07449178106338813
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0005\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 6,
+      "state": "TrialState.COMPLETE",
+      "value": 2.869324019080714,
+      "params": {
+        "model.hidden_size": 96,
+        "model.num_heads": 4,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 2,
+        "model.dropout": 0.13542155772525127,
+        "train.learning_rate": 0.0001973040593897678,
+        "train.weight_decay": 0.005035331375400117,
+        "train.batch_size": 64,
+        "train.lambda_propensity": 0.9756699028339011,
+        "train.lambda_balance": 0.03649631783860979,
+        "train.lambda_smooth": 0.01346965451157265
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0006\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 7,
+      "state": "TrialState.COMPLETE",
+      "value": 2.57232666015625,
+      "params": {
+        "model.hidden_size": 96,
+        "model.num_heads": 4,
+        "model.ff_multiplier": 2,
+        "model.num_layers": 3,
+        "model.dropout": 0.10696809887549352,
+        "train.learning_rate": 3.265940001598128e-05,
+        "train.weight_decay": 0.0004185568797351903,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 0.8507818178129503,
+        "train.lambda_balance": 0.23400954115667078,
+        "train.lambda_smooth": 0.018135548690221045
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0007\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 8,
+      "state": "TrialState.COMPLETE",
+      "value": 2.0230942305765653,
+      "params": {
+        "model.hidden_size": 128,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 4,
+        "model.dropout": 0.15715493681495168,
+        "train.learning_rate": 3.6932697147159226e-05,
+        "train.weight_decay": 0.003914362921786748,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 0.6366976273992875,
+        "train.lambda_balance": 0.09907726766527972,
+        "train.lambda_smooth": 0.05385360148957609
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0008\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 9,
+      "state": "TrialState.COMPLETE",
+      "value": 3.1816032309281197,
+      "params": {
+        "model.hidden_size": 160,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 3,
+        "model.dropout": 0.23493872365571256,
+        "train.learning_rate": 0.0002261833374939686,
+        "train.weight_decay": 1.2865144778690557e-05,
+        "train.batch_size": 64,
+        "train.lambda_propensity": 1.0996807304395162,
+        "train.lambda_balance": 0.08393583423499193,
+        "train.lambda_smooth": 0.018239060194949152
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0009\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 10,
+      "state": "TrialState.COMPLETE",
+      "value": 2.007260008862144,
+      "params": {
+        "model.hidden_size": 128,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 2,
+        "model.dropout": 0.20021482537234891,
+        "train.learning_rate": 7.201354907494303e-05,
+        "train.weight_decay": 0.01506445207391336,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 0.6308777616604534,
+        "train.lambda_balance": 0.020678024929528083,
+        "train.lambda_smooth": 0.11603491404506971
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0010\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 11,
+      "state": "TrialState.COMPLETE",
+      "value": 1.9358184494470294,
+      "params": {
+        "model.hidden_size": 128,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 2,
+        "model.dropout": 0.2009293219544905,
+        "train.learning_rate": 6.758102452354743e-05,
+        "train.weight_decay": 0.01978814608246799,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 0.6034678955348081,
+        "train.lambda_balance": 0.026033611803825994,
+        "train.lambda_smooth": 0.11931578789052417
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0011\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 12,
+      "state": "TrialState.COMPLETE",
+      "value": 1.9315563252097683,
+      "params": {
+        "model.hidden_size": 128,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 2,
+        "model.dropout": 0.20438591675203865,
+        "train.learning_rate": 6.605725808800302e-05,
+        "train.weight_decay": 0.018295551042445405,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 0.6016438945782764,
+        "train.lambda_balance": 0.020249394432739144,
+        "train.lambda_smooth": 0.10770844078720164
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0012\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 13,
+      "state": "TrialState.COMPLETE",
+      "value": 2.302530000084325,
+      "params": {
+        "model.hidden_size": 128,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 2,
+        "model.dropout": 0.20956581716296624,
+        "train.learning_rate": 7.573308496583213e-05,
+        "train.weight_decay": 0.0192264431187932,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 0.7488692891380629,
+        "train.lambda_balance": 0.022082090629420553,
+        "train.lambda_smooth": 0.11710192735467823
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0013\\model\\best_model.pt"
+      }
+    },
+    {
+      "number": 14,
+      "state": "TrialState.COMPLETE",
+      "value": 4.174430847167969,
+      "params": {
+        "model.hidden_size": 128,
+        "model.num_heads": 8,
+        "model.ff_multiplier": 3,
+        "model.num_layers": 2,
+        "model.dropout": 0.2114635783824314,
+        "train.learning_rate": 0.00011213937761891981,
+        "train.weight_decay": 0.00035617176481099407,
+        "train.batch_size": 32,
+        "train.lambda_propensity": 1.4913686025246384,
+        "train.lambda_balance": 0.035613891997022834,
+        "train.lambda_smooth": 0.04236009733038792
+      },
+      "user_attrs": {
+        "best_epoch": 4,
+        "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_15trials\\trial_0014\\model\\best_model.pt"
+      }
+    }
+  ]
+}

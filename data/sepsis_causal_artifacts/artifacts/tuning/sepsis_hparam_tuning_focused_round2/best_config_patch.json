@@ -1,0 +1,17 @@
+{
+  "model": {
+    "hidden_size": 128,
+    "num_heads": 8,
+    "num_layers": 2,
+    "dropout": 0.10953329082142721,
+    "ff_dim": 384
+  },
+  "train": {
+    "learning_rate": 0.00015822883706829836,
+    "weight_decay": 0.0016133417298932551,
+    "batch_size": 64,
+    "lambda_propensity": 0.7039266572577779,
+    "lambda_balance": 0.07288266766214477,
+    "lambda_smooth": 0.030187652009640548
+  }
+}

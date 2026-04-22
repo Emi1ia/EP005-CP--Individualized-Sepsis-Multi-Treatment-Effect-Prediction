@@ -1,0 +1,11 @@
+{
+  "best_threshold": 0.6399999999999999,
+  "best_f1": 0.40667678300455234,
+  "threshold_min": 0.05,
+  "threshold_max": 0.95,
+  "threshold_steps": 91,
+  "threshold_target": "sepsis",
+  "threshold_level": "patient",
+  "n_val_timesteps": 6050,
+  "positive_rate": 0.0771900826446281
+}

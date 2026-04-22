@@ -1,0 +1,12 @@
+data_root=C:\Users\emili\sepsis_project\data\challenge-2019\training
+out_dir=C:\Users\emili\sepsis_project\data\sepsis_causal_project\artifacts
+epoch=1 train_total=1.9485 val_total=1.9268 val_auroc=0.5761
+epoch=2 train_total=1.9278 val_total=1.9212 val_auroc=0.5800
+epoch=3 train_total=1.9230 val_total=1.9189 val_auroc=0.5828
+epoch=4 train_total=1.9204 val_total=1.9175 val_auroc=0.5845
+epoch=5 train_total=1.9186 val_total=1.9168 val_auroc=0.5862
+epoch=6 train_total=1.9174 val_total=1.9164 val_auroc=0.5862
+epoch=7 train_total=1.9163 val_total=1.9149 val_auroc=0.5870
+epoch=8 train_total=1.9158 val_total=1.9145 val_auroc=0.5877
+epoch=9 train_total=1.9151 val_total=1.9144 val_auroc=0.5872
+epoch=10 train_total=1.9148 val_total=1.9149 val_auroc=0.5881

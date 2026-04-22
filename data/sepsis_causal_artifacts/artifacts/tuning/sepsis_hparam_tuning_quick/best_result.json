@@ -1,0 +1,26 @@
+{
+  "method": "bayes",
+  "direction": "1",
+  "n_trials_requested": null,
+  "n_trials_completed": 8,
+  "best_trial_number": 5,
+  "best_value": 2.292665481567383,
+  "best_params": {
+    "model.hidden_size": 96,
+    "model.num_heads": 4,
+    "model.ff_multiplier": 2,
+    "model.num_layers": 3,
+    "model.dropout": 0.13207658460712596,
+    "train.learning_rate": 0.00017087258644559537,
+    "train.weight_decay": 9.639794432729028e-06,
+    "train.batch_size": 64,
+    "train.lambda_propensity": 0.745099158528604,
+    "train.lambda_balance": 0.2479929176624624,
+    "train.lambda_smooth": 0.07449178106338813
+  },
+  "best_user_attrs": {
+    "best_epoch": 4,
+    "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\trial_0005\\model\\best_model.pt"
+  },
+  "storage": "sqlite:///C:/Users/emili/sepsis_project/data/sepsis_causal_project/artifacts/tuning/optuna_study.db"
+}

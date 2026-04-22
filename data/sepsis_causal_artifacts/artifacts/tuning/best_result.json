@@ -1,0 +1,26 @@
+{
+  "method": "grid",
+  "direction": "minimize",
+  "n_trials_requested": 8,
+  "n_trials_completed": 9,
+  "best_trial_number": 4,
+  "best_value": 2.930621234994186,
+  "best_params": {
+    "model.hidden_size": 128,
+    "model.num_heads": 4,
+    "model.ff_dim": 256,
+    "model.num_layers": 3,
+    "model.dropout": 0.1,
+    "train.learning_rate": 0.0002,
+    "train.weight_decay": 0.0001,
+    "train.batch_size": 64,
+    "train.lambda_propensity": 1.0,
+    "train.lambda_balance": 0.05,
+    "train.lambda_smooth": 0.03
+  },
+  "best_user_attrs": {
+    "best_epoch": 4,
+    "best_model_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\trial_0004\\model\\best_model.pt"
+  },
+  "storage": "sqlite:///C:/Users/emili/sepsis_project/data/sepsis_causal_project/artifacts/tuning/optuna_study.db"
+}

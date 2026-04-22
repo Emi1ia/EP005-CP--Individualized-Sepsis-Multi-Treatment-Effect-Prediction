@@ -1,0 +1,26 @@
+{
+  "method": "bayes",
+  "direction": "minimize",
+  "n_trials_requested": 1,
+  "n_trials_completed": 1,
+  "best_trial_number": 0,
+  "best_value": 2.939792513847351,
+  "best_params": {
+    "model.hidden_size": 96,
+    "model.num_heads": 4,
+    "model.ff_multiplier": 3,
+    "model.num_layers": 3,
+    "model.dropout": 0.2439819704323989,
+    "train.learning_rate": 0.0002039688726477339,
+    "train.weight_decay": 8.189867664214776e-06,
+    "train.batch_size": 64,
+    "train.lambda_propensity": 0.873818018663584,
+    "train.lambda_balance": 0.08283072221077194,
+    "train.lambda_smooth": 0.029251420662620615
+  },
+  "best_user_attrs": {
+    "best_epoch": 1,
+    "best_model_path": "c:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_smoke_after_patch\\trial_0000\\model\\best_model.pt"
+  },
+  "storage": "sqlite:///c:/Users/emili/sepsis_project/data/sepsis_causal_project/artifacts/tuning/sepsis_hparam_tuning_smoke_after_patch/optuna_study.db"
+}

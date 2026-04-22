@@ -1,0 +1,18 @@
+{
+  "tuning_result_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_focused_round2\\best_result.json",
+  "best_patch_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_focused_round2\\best_config_patch.json",
+  "best_trial_number": 12,
+  "best_objective_value": 2.182213217020035,
+  "threshold_calibration": {
+    "best_threshold": 0.13,
+    "best_f1": 0.2637428168708663,
+    "threshold_min": 0.05,
+    "threshold_max": 0.95,
+    "threshold_steps": 91,
+    "n_val_timesteps": 233364,
+    "positive_rate": 0.14680498838424683
+  },
+  "optimized_config_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\configs\\final_optimized_for_training.yaml",
+  "recommended_training_command": "python -m sepsis_causal.cli --config C:/Users/emili/sepsis_project/data/sepsis_causal_project/configs/final_optimized_for_training.yaml train",
+  "recommended_evaluation_command": "python -m sepsis_causal.cli --config C:/Users/emili/sepsis_project/data/sepsis_causal_project/configs/final_optimized_for_training.yaml evaluate"
+}

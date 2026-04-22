@@ -1,0 +1,20 @@
+{
+  "tuning_result_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_patient_horizon_smoke\\best_result.json",
+  "best_patch_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts\\tuning\\sepsis_hparam_tuning_patient_horizon_smoke\\best_config_patch.json",
+  "best_trial_number": 0,
+  "best_objective_value": 1.706184018822583,
+  "threshold_calibration": {
+    "best_threshold": 0.20999999999999996,
+    "best_f1": 0.336734693877551,
+    "threshold_min": 0.05,
+    "threshold_max": 0.95,
+    "threshold_steps": 91,
+    "threshold_target": "sepsis",
+    "threshold_level": "patient",
+    "n_val_timesteps": 6050,
+    "positive_rate": 0.0771900826446281
+  },
+  "optimized_config_path": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\configs\\final_patient_horizon_smoke.yaml",
+  "recommended_training_command": "python -m sepsis_causal.cli --config C:/Users/emili/sepsis_project/data/sepsis_causal_project/configs/final_patient_horizon_smoke.yaml train",
+  "recommended_evaluation_command": "python -m sepsis_causal.cli --config C:/Users/emili/sepsis_project/data/sepsis_causal_project/configs/final_patient_horizon_smoke.yaml evaluate"
+}
