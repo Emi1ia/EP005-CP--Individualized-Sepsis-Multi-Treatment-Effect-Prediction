@@ -1,0 +1,30 @@
+{
+  "checkpoint": "C:\\Users\\emili\\sepsis_project\\data\\sepsis_causal_project\\artifacts_final_treatment_policy\\model\\best_model.pt",
+  "n_test_sequences": 6051,
+  "n_test_timesteps": 229717,
+  "classification_threshold": 0.5,
+  "sepsis_classification_threshold": 0.5,
+  "factual_metrics": {
+    "auroc": 0.5872323781116082,
+    "auprc": 0.22302794078714638,
+    "f1": 0.024285839084476284
+  },
+  "sepsis_metrics": {
+    "auroc": 0.560325048032501,
+    "auprc": 0.02508328364827678,
+    "f1": 0.007156388128814986
+  },
+  "factual_error_metrics": {
+    "mae": 0.24233967357478828,
+    "rmse": 0.34965688152429397
+  },
+  "sepsis_error_metrics": {
+    "mae": 0.15565878264027705,
+    "rmse": 0.1886240808136197
+  },
+  "treatment_effect_metrics": {
+    "pehe": 0.03065350018049619,
+    "ate_error": 0.003225757274776697,
+    "policy_regret": 0.00811835378408432
+  }
+}
