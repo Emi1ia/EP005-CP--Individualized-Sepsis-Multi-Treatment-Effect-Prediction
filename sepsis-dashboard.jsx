@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import datasetInfo from "./data/dataset_audit_summary.json";
 import {
   LineChart, Line, BarChart, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis,
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -298,7 +299,7 @@ function HomePage({ onNavigate }) {
 // 2. OVERVIEW
 function OverviewPage() {
   const stats = [
-    { label: "Total Patients", value: "500", desc: "Adult ICU admissions", color: C.accent },
+    { label: "Total Patients", value: "", desc: "Adult ICU admissions", color: C.accent },
     { label: "Sepsis Cases", value: "500", desc: "Sepsis-3 criteria", color: C.red },
     { label: "Avg SOFA Score", value: "5.2", desc: "Severity of illness", color: C.yellow },
     { label: "28-Day Mortality", value: "23.4%", desc: "Primary outcome", color: C.purple },
