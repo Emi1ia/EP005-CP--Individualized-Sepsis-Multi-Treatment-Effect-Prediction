@@ -1,10 +1,10 @@
 # Contributing
 
-1. Open an issue describing the change and target config(s).
-2. Keep code changes under `algorithm/sepsis_causal_project/` scoped to the request.
-3. For experiment claims, include:
-   - exact command(s),
-   - exact config path(s),
-   - resulting metrics file path(s).
-4. Do not commit large local datasets or full artifact trees under `data/`.
-5. Keep release-sized checkpoints under `artifacts_release/` only when needed.
+1. Open an issue and explain what you want to change.
+2. Keep changes focused in `algorithm/sepsis_causal_project/` unless needed elsewhere.
+3. If you report results, include:
+   - the exact command you ran,
+   - the config file path,
+   - and where the output metrics file is.
+4. Do not commit large local dataset folders or full local artifact folders under `data/`.
+5. If needed, keep only small release-ready model files in `artifacts_release/`.

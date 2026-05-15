@@ -8,6 +8,8 @@ data:
   train_dirs:
     - "training_setA"
     - "training_setB"
+    - "training_mimic"
+    - "training_mimic_synthetic_full"
   split_ratio:
     train: 0.70
     val: 0.15
@@ -17,13 +19,11 @@ data:
   synthetic_noise_std: 0.15
 
 model:
-  model_type: "transformer"
   hidden_size: 128
   num_layers: 4
   num_heads: 8
   ff_dim: 256
   dropout: 0.10
-  cnn_kernel_size: 3
 
 train:
   epochs: 20
@@ -61,17 +61,6 @@ train:
 eval:
   threshold: 0.5
   sepsis_threshold: 0.5
-
-benchmark:
-  model_types: ["transformer", "lstm", "gru", "cnn", "mlp"]
-  out_dir: null
-  prepared_dir: null
-  auto_prepare: true
-  skip_existing: true
-  train_overrides: {}
-  model_overrides:
-    cnn:
-      cnn_kernel_size: 5
 
 tune:
   method: "bayes"

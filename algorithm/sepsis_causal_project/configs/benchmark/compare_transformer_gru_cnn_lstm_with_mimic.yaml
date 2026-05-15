@@ -1,0 +1,77 @@
+seed: 42
+paths:
+  data_root: c:/Users/emili/sepsis_project/data/challenge-2019/training
+  out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts
+data:
+  train_dirs:
+  - training_setA
+  - training_setB
+  - training_mimic
+  split_ratio:
+    train: 0.7
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+model:
+  model_type: transformer
+  hidden_size: 128
+  num_layers: 4
+  num_heads: 8
+  ff_dim: 256
+  dropout: 0.1
+  cnn_kernel_size: 3
+train:
+  epochs: 20
+  batch_size: 64
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  grad_clip: 1.0
+  early_stopping_patience: 5
+  num_workers: 0
+  lambda_propensity: 1.0
+  lambda_balance: 0.1
+  lambda_smooth: 0.05
+  lambda_sepsis: 1.5
+  sepsis_pos_weight: 3.0
+  metric_target: sepsis
+  metric_threshold: 0.5
+  early_stopping_metric: auprc
+  early_stopping_mode: max
+  sampler_mode: none
+  sampler_positive_fraction: 0.5
+  sampler_num_samples: null
+  sampler_replacement: true
+  augmentation_enabled: false
+  augmentation_positive_only: true
+  augmentation_apply_prob: 0.9
+  augmentation_noise_std: 0.0
+  augmentation_scale_std: 0.0
+  augmentation_feature_dropout_prob: 0.0
+  augmentation_time_dropout_prob: 0.0
+  augmentation_value_dim: 40
+  augmentation_value_clip: 8.0
+  max_train_patients: null
+  max_val_patients: null
+eval:
+  threshold: 0.5
+  sepsis_threshold: 0.5
+benchmark:
+  model_types:
+  - transformer
+  - gru
+  - cnn
+  - lstm
+  out_dir: c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_model_benchmarks_with_mimic
+  prepared_dir: null
+  auto_prepare: true
+  skip_existing: false
+  train_overrides:
+    epochs: 8
+    early_stopping_patience: 3
+    max_train_patients: 6000
+    max_val_patients: 2000
+  model_overrides:
+    cnn:
+      cnn_kernel_size: 5

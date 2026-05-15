@@ -12,7 +12,7 @@ from sklearn.metrics import f1_score
 from torch.utils.data import DataLoader
 
 from .data import PatientSequenceDataset, collate_patient_batch
-from .model import CausalTransformer
+from .model import action_to_combo_index, build_model_from_checkpoint
 from .prepare import run_prepare
 from .targets import build_temporal_target_torch
 from .tune import run_tuning
@@ -34,20 +34,6 @@ def _load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _build_model_from_checkpoint(ckpt: dict[str, Any]) -> CausalTransformer:
-    mcfg = ckpt["model_config"]
-    model = CausalTransformer(
-        input_dim=int(mcfg["input_dim"]),
-        hidden_size=int(mcfg["hidden_size"]),
-        num_layers=int(mcfg["num_layers"]),
-        num_heads=int(mcfg["num_heads"]),
-        ff_dim=int(mcfg["ff_dim"]),
-        dropout=float(mcfg["dropout"]),
-    )
-    model.load_state_dict(ckpt["model_state_dict"], strict=False)
-    return model
-
-
 def _collect_val_probs(
     model_path: Path,
     val_csv: Path,
@@ -60,7 +46,7 @@ def _collect_val_probs(
     sepsis_patient_aggregation: str,
 ) -> tuple[np.ndarray, np.ndarray]:
     ckpt = torch.load(model_path, map_location="cpu")
-    model = _build_model_from_checkpoint(ckpt)
+    model = build_model_from_checkpoint(ckpt)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
@@ -87,7 +73,7 @@ def _collect_val_probs(
         for batch in loader:
             batch = {k: v.to(device) for k, v in batch.items()}
             out = model(batch["x"], batch["mask"])
-            combo_idx = CausalTransformer.action_to_combo_index(batch["actions"])
+            combo_idx = action_to_combo_index(batch["actions"])
             factual_prob = out["outcome_prob_all"].gather(-1, combo_idx.unsqueeze(-1)).squeeze(-1)
             sepsis_prob = out["sepsis_prob"] if has_sepsis_head else factual_prob
             valid = batch["mask"]

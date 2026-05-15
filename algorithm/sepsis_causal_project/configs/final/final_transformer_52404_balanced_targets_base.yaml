@@ -1,0 +1,72 @@
+seed: 42
+
+paths:
+  data_root: "c:/Users/emili/sepsis_project/data/challenge-2019/training"
+  out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_52404_balanced_targets"
+
+data:
+  train_dirs:
+    - "training_setA"
+    - "training_setB"
+    - "training_mimic"
+    - "training_mimic_synthetic_full"
+  split_ratio:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+
+model:
+  model_type: "transformer"
+  hidden_size: 96
+  num_layers: 4
+  num_heads: 8
+  ff_dim: 288
+  dropout: 0.10851650527908796
+
+train:
+  epochs: 70
+  batch_size: 64
+  learning_rate: 0.00015192625462569608
+  weight_decay: 0.00010562018216519246
+  grad_clip: 0.9811700974576038
+  early_stopping_patience: 12
+  num_workers: 8
+  lambda_propensity: 0.975042278852331
+  lambda_balance: 0.024621798098106162
+  lambda_smooth: 0.08933500726389196
+  lambda_sepsis: 1.746074041599417
+  sepsis_pos_weight: 2.407751415547639
+  metric_target: "sepsis"
+  metric_threshold: 0.5
+  sepsis_target_mode: "future_horizon"
+  sepsis_horizon_hours: 12
+  early_stopping_metric: "patient_auprc"
+  early_stopping_mode: "max"
+  patient_metric_aggregation: "max"
+  patient_metric_threshold: 0.5
+  sampler_mode: "none"
+  sampler_positive_fraction: 0.5
+  sampler_num_samples: null
+  sampler_replacement: true
+  augmentation_enabled: true
+  augmentation_positive_only: true
+  augmentation_apply_prob: 0.8935518371228349
+  augmentation_noise_std: 0.04065386171053694
+  augmentation_scale_std: 0.0016587828927856153
+  augmentation_feature_dropout_prob: 0.02560465291496405
+  augmentation_time_dropout_prob: 0.006794873255938139
+  augmentation_value_dim: 40
+  augmentation_value_clip: 8.0
+  max_train_patients: null
+  max_val_patients: null
+
+eval:
+  threshold: 0.5
+  sepsis_threshold: 0.5
+  sepsis_patient_threshold: 0.5
+  sepsis_target_mode: "future_horizon"
+  sepsis_horizon_hours: 12
+  sepsis_patient_aggregation: "max"

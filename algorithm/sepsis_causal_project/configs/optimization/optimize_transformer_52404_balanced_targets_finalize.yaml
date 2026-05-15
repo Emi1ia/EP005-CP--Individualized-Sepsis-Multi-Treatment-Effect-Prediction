@@ -1,0 +1,150 @@
+seed: 42
+
+paths:
+  data_root: "c:/Users/emili/sepsis_project/data/challenge-2019/training"
+  out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_target_52404_balanced"
+
+data:
+  train_dirs:
+    - "training_setA"
+    - "training_setB"
+    - "training_mimic"
+    - "training_mimic_synthetic_full"
+  split_ratio:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+
+model:
+  model_type: "transformer"
+  hidden_size: 96
+  num_layers: 4
+  num_heads: 8
+  ff_dim: 288
+  dropout: 0.10851650527908796
+
+train:
+  epochs: 70
+  batch_size: 64
+  learning_rate: 0.00015192625462569608
+  weight_decay: 0.00010562018216519246
+  grad_clip: 0.9811700974576038
+  early_stopping_patience: 12
+  num_workers: 8
+  lambda_propensity: 0.975042278852331
+  lambda_balance: 0.024621798098106162
+  lambda_smooth: 0.08933500726389196
+  lambda_sepsis: 1.746074041599417
+  sepsis_pos_weight: 2.407751415547639
+  metric_target: "sepsis"
+  metric_threshold: 0.5
+  sepsis_target_mode: "future_horizon"
+  sepsis_horizon_hours: 12
+  early_stopping_metric: "patient_auprc"
+  early_stopping_mode: "max"
+  patient_metric_aggregation: "max"
+  patient_metric_threshold: 0.5
+  sampler_mode: "none"
+  sampler_positive_fraction: 0.5
+  sampler_num_samples: null
+  sampler_replacement: true
+  augmentation_enabled: true
+  augmentation_positive_only: true
+  augmentation_apply_prob: 0.8935518371228349
+  augmentation_noise_std: 0.04065386171053694
+  augmentation_scale_std: 0.0016587828927856153
+  augmentation_feature_dropout_prob: 0.02560465291496405
+  augmentation_time_dropout_prob: 0.006794873255938139
+  augmentation_value_dim: 40
+  augmentation_value_clip: 8.0
+  max_train_patients: null
+  max_val_patients: null
+
+eval:
+  threshold: 0.5
+  sepsis_threshold: 0.5
+  sepsis_patient_threshold: 0.5
+  sepsis_target_mode: "future_horizon"
+  sepsis_horizon_hours: 12
+  sepsis_patient_aggregation: "max"
+
+tune:
+  method: "bayes"
+  direction: "minimize"
+  objective_metric: "all_metrics_combo"
+  classification_level: "patient"
+  all_metrics_objective_weights:
+    one_minus_factual_auroc: 0.2
+    one_minus_factual_auprc: 0.2
+    one_minus_factual_f1: 0.2
+    one_minus_sepsis_auroc: 3.0
+    one_minus_sepsis_auprc: 4.0
+    one_minus_sepsis_f1: 4.0
+    factual_rmse: 0.25
+    factual_mae: 0.25
+    sepsis_rmse: 2.0
+    sepsis_mae: 1.5
+    pehe: 1.5
+    ate_error: 1.5
+    policy_regret: 1.0
+  study_name: "sepsis_hparam_tuning_52404_balanced_targets"
+  n_trials: 9
+  max_total_trials: 9
+  timeout_sec: null
+  trial_epochs: 8
+  trial_patience: 4
+  max_train_patients: 12000
+  max_val_patients: 3500
+  search_space:
+    model.hidden_size: [96, 128, 160]
+    model.num_heads: [8]
+    model.num_layers: [2, 3, 4]
+    model.ff_multiplier: [2, 3]
+    model.dropout_min: 0.05
+    model.dropout_max: 0.20
+    train.learning_rate_min: 3.0e-05
+    train.learning_rate_max: 0.00025
+    train.weight_decay_min: 1.0e-06
+    train.weight_decay_max: 0.02
+    train.batch_size: [32, 64]
+    train.lambda_propensity_min: 0.6
+    train.lambda_propensity_max: 1.3
+    train.lambda_balance_min: 0.01
+    train.lambda_balance_max: 0.20
+    train.lambda_smooth_min: 0.02
+    train.lambda_smooth_max: 0.12
+    train.grad_clip_min: 0.5
+    train.grad_clip_max: 2.0
+    train.lambda_sepsis_min: 1.0
+    train.lambda_sepsis_max: 5.0
+    train.sepsis_pos_weight_min: 1.5
+    train.sepsis_pos_weight_max: 10.0
+    train.augmentation_noise_std_min: 0.0
+    train.augmentation_noise_std_max: 0.06
+    train.augmentation_scale_std_min: 0.0
+    train.augmentation_scale_std_max: 0.1
+    train.augmentation_feature_dropout_prob_min: 0.0
+    train.augmentation_feature_dropout_prob_max: 0.05
+    train.augmentation_time_dropout_prob_min: 0.0
+    train.augmentation_time_dropout_prob_max: 0.03
+    train.augmentation_apply_prob_min: 0.7
+    train.augmentation_apply_prob_max: 1.0
+
+optimize:
+  auto_prepare: false
+  reset_train_patient_limits: true
+  calibrate_threshold: true
+  threshold_target: "sepsis"
+  threshold_level: "patient"
+  sepsis_target_mode: "future_horizon"
+  sepsis_horizon_hours: 12
+  sepsis_patient_aggregation: "max"
+  threshold_min: 0.05
+  threshold_max: 0.95
+  threshold_steps: 91
+  final_out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_final_52404_balanced_targets"
+  output_config_path: "configs/final/final_transformer_52404_balanced_targets_for_training.yaml"
+

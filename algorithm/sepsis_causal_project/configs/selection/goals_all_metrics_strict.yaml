@@ -1,0 +1,139 @@
+- name: factual_auroc
+  key: val_factual_auroc
+  direction: max
+  min: 0.8
+  weight: 1.0
+
+- name: factual_auprc
+  key: val_factual_auprc
+  direction: max
+  min: 0.4
+  max: 0.7
+  weight: 1.0
+
+- name: factual_f1
+  key: val_factual_f1
+  direction: max
+  min: 0.65
+  weight: 1.0
+
+- name: factual_mae
+  key: val_factual_mae
+  direction: min
+  min: 0.1
+  max: 0.2
+  weight: 1.0
+
+- name: factual_mse
+  key: val_factual_mse
+  direction: min
+  min: 0.0225
+  max: 0.0625
+  weight: 1.0
+
+- name: factual_rmse
+  key: val_factual_rmse
+  direction: min
+  min: 0.15
+  max: 0.25
+  weight: 1.0
+
+- name: sepsis_auroc
+  key: val_sepsis_auroc
+  direction: max
+  min: 0.8
+  weight: 1.0
+
+- name: sepsis_auprc
+  key: val_sepsis_auprc
+  direction: max
+  min: 0.4
+  max: 0.7
+  weight: 1.0
+
+- name: sepsis_f1
+  key: val_sepsis_f1
+  direction: max
+  min: 0.65
+  weight: 1.0
+
+- name: sepsis_mae
+  key: val_sepsis_mae
+  direction: min
+  min: 0.1
+  max: 0.2
+  weight: 1.0
+
+- name: sepsis_mse
+  key: val_sepsis_mse
+  direction: min
+  min: 0.0225
+  max: 0.0625
+  weight: 1.0
+
+- name: sepsis_rmse
+  key: val_sepsis_rmse
+  direction: min
+  min: 0.15
+  max: 0.25
+  weight: 1.0
+
+- name: patient_sepsis_auroc
+  key: val_patient_sepsis_auroc
+  direction: max
+  min: 0.8
+  weight: 1.0
+
+- name: patient_sepsis_auprc
+  key: val_patient_sepsis_auprc
+  direction: max
+  min: 0.4
+  max: 0.7
+  weight: 1.0
+
+- name: patient_sepsis_f1
+  key: val_patient_sepsis_f1
+  direction: max
+  min: 0.65
+  weight: 1.0
+
+- name: patient_sepsis_mae
+  key: val_patient_sepsis_mae
+  direction: min
+  min: 0.1
+  max: 0.2
+  weight: 1.0
+
+- name: patient_sepsis_mse
+  key: val_patient_sepsis_mse
+  direction: min
+  min: 0.0225
+  max: 0.0625
+  weight: 1.0
+
+- name: patient_sepsis_rmse
+  key: val_patient_sepsis_rmse
+  direction: min
+  min: 0.15
+  max: 0.25
+  weight: 1.0
+
+- name: recommendation_pehe
+  key: val_pehe
+  direction: min
+  min: 0.1
+  max: 0.2
+  weight: 1.0
+
+- name: recommendation_ate_error
+  key: val_ate_error
+  direction: min
+  min: 0.1
+  max: 0.2
+  weight: 1.0
+
+- name: recommendation_policy_regret
+  key: val_policy_regret
+  direction: min
+  max: 0.05
+  weight: 1.0

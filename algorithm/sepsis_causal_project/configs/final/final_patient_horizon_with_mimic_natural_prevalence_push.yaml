@@ -1,0 +1,160 @@
+seed: 42
+paths:
+  data_root: c:/Users/emili/sepsis_project/data/challenge-2019/training
+  out_dir: c:/Users/emili/sepsis_project/algorithm/EP005-CP--Individualized-Sepsis-Multi-Treatment-Effect-Prediction/data/sepsis_causal_artifacts/artifacts_final_patient_horizon_with_mimic_natural_push
+data:
+  train_dirs:
+  - training_setA
+  - training_setB
+  - training_mimic
+  split_ratio:
+    train: 0.7
+    val: 0.15
+    test: 0.15
+  max_patients: null
+  delta_cap_hours: 72.0
+  synthetic_noise_std: 0.15
+  outlier_clip_std: 4.0
+  normalized_value_clip: 8.0
+model:
+  hidden_size: 128
+  num_layers: 4
+  num_heads: 8
+  ff_dim: 256
+  dropout: 0.18
+train:
+  epochs: 60
+  batch_size: 32
+  learning_rate: 8.5e-05
+  weight_decay: 0.0006
+  grad_clip: 0.95
+  early_stopping_patience: 12
+  num_workers: 0
+  lambda_propensity: 0.7486373774747933
+  lambda_balance: 0.030398696602619617
+  lambda_smooth: 0.02778090851688602
+  lambda_sepsis: 2.8
+  sepsis_pos_weight: 5.5
+  l1_weight: 0.0002
+  l1_include_bias: false
+  metric_target: sepsis
+  metric_threshold: 0.5
+  patient_metric_aggregation: max
+  patient_metric_threshold: 0.5
+  sepsis_target_mode: future_horizon
+  sepsis_horizon_hours: 12
+  early_stopping_metric: patient_auprc
+  early_stopping_mode: max
+  progress_checkpoints:
+  - epoch: 6
+    min:
+      patient_auprc: 0.27
+      auroc: 0.79
+    max:
+      rmse: 0.41
+  - epoch: 10
+    min:
+      patient_auprc: 0.31
+      auroc: 0.80
+    max:
+      rmse: 0.39
+  sampler_mode: balanced_patient
+  sampler_positive_fraction: 0.35
+  sampler_num_samples: null
+  sampler_replacement: true
+  augmentation_enabled: true
+  augmentation_positive_only: true
+  augmentation_apply_prob: 0.7
+  augmentation_noise_std: 0.01
+  augmentation_scale_std: 0.02
+  augmentation_feature_dropout_prob: 0.01
+  augmentation_time_dropout_prob: 0.0
+  augmentation_value_dim: 40
+  augmentation_value_clip: 8.0
+  input_value_clip: 6.0
+  input_value_dim: 40
+  max_train_patients: null
+  max_val_patients: null
+eval:
+  threshold: 0.5
+  sepsis_threshold: 0.5
+  sepsis_patient_threshold: 0.5
+  sepsis_target_mode: future_horizon
+  sepsis_horizon_hours: 12
+  sepsis_patient_aggregation: max
+tune:
+  method: bayes
+  direction: minimize
+  objective_metric: all_metrics_combo
+  classification_level: patient
+  all_metrics_objective_weights:
+    one_minus_factual_auroc: 0.25
+    one_minus_factual_auprc: 0.9
+    one_minus_factual_f1: 1.0
+    one_minus_sepsis_auroc: 1.4
+    one_minus_sepsis_auprc: 3.0
+    one_minus_sepsis_f1: 3.0
+    factual_rmse: 1.8
+    factual_mae: 1.0
+    sepsis_rmse: 2.4
+    sepsis_mae: 1.4
+    pehe: 1.8
+    ate_error: 1.8
+    policy_regret: 1.2
+  study_name: sepsis_hparam_tuning_mimic_natural_push_error_priority
+  n_trials: 20
+  max_total_trials: 20
+  timeout_sec: null
+  trial_epochs: 8
+  trial_patience: 3
+  max_train_patients: 9000
+  max_val_patients: 3000
+  search_space:
+    model.hidden_size:
+    - 96
+    - 128
+    - 160
+    model.num_heads:
+    - 8
+    model.num_layers:
+    - 2
+    - 3
+    - 4
+    model.ff_multiplier:
+    - 2
+    - 3
+    model.dropout_min: 0.12
+    model.dropout_max: 0.28
+    train.learning_rate_min: 2.5e-05
+    train.learning_rate_max: 0.0002
+    train.weight_decay_min: 5.0e-05
+    train.weight_decay_max: 0.01
+    train.batch_size:
+    - 32
+    - 64
+    train.lambda_propensity_min: 0.5
+    train.lambda_propensity_max: 1.2
+    train.lambda_balance_min: 0.01
+    train.lambda_balance_max: 0.12
+    train.lambda_smooth_min: 0.01
+    train.lambda_smooth_max: 0.08
+    train.grad_clip_min: 0.5
+    train.grad_clip_max: 1.5
+    train.lambda_sepsis_min: 1.0
+    train.lambda_sepsis_max: 4.5
+    train.sepsis_pos_weight_min: 2.0
+    train.sepsis_pos_weight_max: 10.0
+optimize:
+  auto_prepare: true
+  reset_train_patient_limits: true
+  calibrate_threshold: true
+  threshold_target: sepsis
+  threshold_level: patient
+  sepsis_target_mode: future_horizon
+  sepsis_horizon_hours: 12
+  sepsis_patient_aggregation: max
+  threshold_min: 0.05
+  threshold_max: 0.95
+  threshold_steps: 91
+  final_out_dir: c:/Users/emili/sepsis_project/algorithm/EP005-CP--Individualized-Sepsis-Multi-Treatment-Effect-Prediction/data/sepsis_causal_artifacts/artifacts_final_patient_horizon_with_mimic_natural_push
+  output_config_path: configs/final/final_patient_horizon_with_mimic_natural_prevalence_push.yaml

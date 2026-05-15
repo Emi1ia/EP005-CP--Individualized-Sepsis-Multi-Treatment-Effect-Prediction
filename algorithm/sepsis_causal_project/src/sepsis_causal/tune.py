@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +15,7 @@ from torch.utils.data import DataLoader
 
 from .data import PatientSequenceDataset, collate_patient_batch
 from .metrics import probability_error_metrics, safe_classification_metrics, treatment_effect_metrics
-from .model import CausalTransformer
+from .model import action_to_combo_index, build_model_from_checkpoint
 from .targets import build_temporal_target_torch
 from .train import run_train_with_paths
 from .utils import save_json
@@ -229,20 +231,6 @@ def _load_trial_score(best_model_path: Path) -> tuple[float, int]:
     return float(ckpt["best_val_total"]), int(ckpt["epoch"])
 
 
-def _build_model_from_checkpoint(ckpt: dict[str, Any]) -> CausalTransformer:
-    mcfg = ckpt["model_config"]
-    model = CausalTransformer(
-        input_dim=int(mcfg["input_dim"]),
-        hidden_size=int(mcfg["hidden_size"]),
-        num_layers=int(mcfg["num_layers"]),
-        num_heads=int(mcfg["num_heads"]),
-        ff_dim=int(mcfg["ff_dim"]),
-        dropout=float(mcfg["dropout"]),
-    )
-    model.load_state_dict(ckpt["model_state_dict"], strict=False)
-    return model
-
-
 def _score_checkpoint_on_val(
     best_model_path: Path,
     val_csv: Path,
@@ -256,7 +244,7 @@ def _score_checkpoint_on_val(
     sepsis_patient_aggregation: str,
 ) -> dict[str, dict[str, float]]:
     ckpt = torch.load(best_model_path, map_location="cpu")
-    model = _build_model_from_checkpoint(ckpt)
+    model = build_model_from_checkpoint(ckpt)
     has_sepsis_head = (
         "sepsis_head.weight" in ckpt["model_state_dict"]
         and "sepsis_head.bias" in ckpt["model_state_dict"]
@@ -289,7 +277,7 @@ def _score_checkpoint_on_val(
             batch = {k: v.to(device) for k, v in batch.items()}
             out = model(batch["x"], batch["mask"])
 
-            combo_idx = CausalTransformer.action_to_combo_index(batch["actions"])
+            combo_idx = action_to_combo_index(batch["actions"])
             factual_prob = out["outcome_prob_all"].gather(-1, combo_idx.unsqueeze(-1)).squeeze(-1)
             sepsis_prob = out["sepsis_prob"] if has_sepsis_head else factual_prob
             sepsis_target = build_temporal_target_torch(
@@ -476,6 +464,60 @@ def _objective_from_metrics(
             + w_rmse * float(sepsis_error["rmse"])
         )
         return float(score), objective_metric
+    if objective_metric in {"all_metrics_combo", "all_metrics_weighted"}:
+        weights = tune_cfg.get("all_metrics_objective_weights", {})
+
+        def _bounded_rate(
+            d: dict[str, float],
+            key: str,
+            default: float,
+        ) -> float:
+            v = float(d.get(key, float("nan")))
+            if np.isnan(v):
+                v = default
+            return float(np.clip(v, 0.0, 1.0))
+
+        def _nonneg_loss(
+            d: dict[str, float],
+            key: str,
+            default: float,
+        ) -> float:
+            v = float(d.get(key, float("nan")))
+            if np.isnan(v):
+                v = default
+            return float(max(0.0, v))
+
+        factual_auroc = _bounded_rate(factual, "auroc", 0.5)
+        factual_auprc = _bounded_rate(factual, "auprc", 0.0)
+        factual_f1 = _bounded_rate(factual, "f1", 0.0)
+        sepsis_auroc = _bounded_rate(sepsis, "auroc", 0.5)
+        sepsis_auprc = _bounded_rate(sepsis, "auprc", 0.0)
+        sepsis_f1 = _bounded_rate(sepsis, "f1", 0.0)
+
+        factual_rmse = _nonneg_loss(metric_bundle["factual_error"], "rmse", 1.0)
+        factual_mae = _nonneg_loss(metric_bundle["factual_error"], "mae", 1.0)
+        sepsis_rmse = _nonneg_loss(sepsis_error, "rmse", 1.0)
+        sepsis_mae = _nonneg_loss(sepsis_error, "mae", 1.0)
+        pehe = _nonneg_loss(causal, "pehe", 1.0)
+        ate_error = _nonneg_loss(causal, "ate_error", 1.0)
+        policy_regret = _nonneg_loss(causal, "policy_regret", 1.0)
+
+        score = (
+            float(weights.get("one_minus_factual_auroc", 0.5)) * float(1.0 - factual_auroc)
+            + float(weights.get("one_minus_factual_auprc", 1.0)) * float(1.0 - factual_auprc)
+            + float(weights.get("one_minus_factual_f1", 1.0)) * float(1.0 - factual_f1)
+            + float(weights.get("one_minus_sepsis_auroc", 1.5)) * float(1.0 - sepsis_auroc)
+            + float(weights.get("one_minus_sepsis_auprc", 2.0)) * float(1.0 - sepsis_auprc)
+            + float(weights.get("one_minus_sepsis_f1", 2.0)) * float(1.0 - sepsis_f1)
+            + float(weights.get("factual_rmse", 1.0)) * factual_rmse
+            + float(weights.get("factual_mae", 0.5)) * factual_mae
+            + float(weights.get("sepsis_rmse", 1.5)) * sepsis_rmse
+            + float(weights.get("sepsis_mae", 0.75)) * sepsis_mae
+            + float(weights.get("pehe", 1.0)) * pehe
+            + float(weights.get("ate_error", 1.0)) * ate_error
+            + float(weights.get("policy_regret", 1.0)) * policy_regret
+        )
+        return float(score), objective_metric
 
     valid = [
         "val_total",
@@ -491,6 +533,7 @@ def _objective_from_metrics(
         "sepsis_rmse",
         "sepsis_mae",
         "hybrid_combo",
+        "all_metrics_combo",
     ]
     raise ValueError(f"Unknown tune.objective_metric={objective_metric}. Choose one of: {valid}")
 
@@ -513,13 +556,32 @@ def run_tuning(config: dict[str, Any], out_dir: Path) -> Path:
     search_space = tune_cfg.get("search_space", {})
     objective_metric = str(tune_cfg.get("objective_metric", "val_total")).lower()
 
-    tune_root = out_dir / "tuning"
-    tune_root.mkdir(parents=True, exist_ok=True)
     study_name = str(tune_cfg.get("study_name", "sepsis_hparam_tuning"))
+    tune_root_raw = tune_cfg.get("tune_root")
+    if tune_root_raw is None:
+        tune_root = out_dir / "tuning"
+        if os.name == "nt":
+            # Windows path limits can break deep trial paths under long out_dir roots.
+            trial_probe = tune_root / study_name / "trial_0000" / "model" / "best_model.pt"
+            if len(str(trial_probe)) >= 240:
+                out_hash = hashlib.sha1(str(out_dir).encode("utf-8")).hexdigest()[:10]
+                tune_root = Path.cwd() / ".tuning" / f"{out_dir.name}_{out_hash}"
+    else:
+        tune_root = Path(tune_root_raw)
+        if not tune_root.is_absolute():
+            tune_root = (Path.cwd() / tune_root).resolve()
+    tune_root.mkdir(parents=True, exist_ok=True)
     study_dir = tune_root / study_name
     study_dir.mkdir(parents=True, exist_ok=True)
-    storage = str(study_dir / "optuna_study.db")
-    storage_uri = f"sqlite:///{storage.replace('\\', '/')}"
+    storage_path_raw = tune_cfg.get("storage_path")
+    if storage_path_raw is None:
+        storage_path = study_dir / "optuna_study.db"
+    else:
+        storage_path = Path(storage_path_raw)
+        if not storage_path.is_absolute():
+            storage_path = (tune_root / storage_path).resolve()
+    storage_path.parent.mkdir(parents=True, exist_ok=True)
+    storage_uri = f"sqlite:///{storage_path.as_posix()}"
 
     grid_space: dict[str, list[Any]] | None = None
     if method == "bayes":
@@ -625,15 +687,20 @@ def run_tuning(config: dict[str, Any], out_dir: Path) -> Path:
         trial.set_user_attr("val_factual_auroc", float(metric_bundle["factual"]["auroc"]))
         trial.set_user_attr("val_factual_auprc", float(metric_bundle["factual"]["auprc"]))
         trial.set_user_attr("val_factual_f1", float(metric_bundle["factual"]["f1"]))
+        trial.set_user_attr("val_factual_mae", float(metric_bundle["factual_error"]["mae"]))
+        trial.set_user_attr("val_factual_mse", float(metric_bundle["factual_error"]["mse"]))
+        trial.set_user_attr("val_factual_rmse", float(metric_bundle["factual_error"]["rmse"]))
         trial.set_user_attr("val_sepsis_auroc", float(metric_bundle["sepsis"]["auroc"]))
         trial.set_user_attr("val_sepsis_auprc", float(metric_bundle["sepsis"]["auprc"]))
         trial.set_user_attr("val_sepsis_f1", float(metric_bundle["sepsis"]["f1"]))
         trial.set_user_attr("val_sepsis_mae", float(metric_bundle["sepsis_error"]["mae"]))
+        trial.set_user_attr("val_sepsis_mse", float(metric_bundle["sepsis_error"]["mse"]))
         trial.set_user_attr("val_sepsis_rmse", float(metric_bundle["sepsis_error"]["rmse"]))
         trial.set_user_attr("val_patient_sepsis_auroc", float(metric_bundle["sepsis_patient"]["auroc"]))
         trial.set_user_attr("val_patient_sepsis_auprc", float(metric_bundle["sepsis_patient"]["auprc"]))
         trial.set_user_attr("val_patient_sepsis_f1", float(metric_bundle["sepsis_patient"]["f1"]))
         trial.set_user_attr("val_patient_sepsis_mae", float(metric_bundle["sepsis_patient_error"]["mae"]))
+        trial.set_user_attr("val_patient_sepsis_mse", float(metric_bundle["sepsis_patient_error"]["mse"]))
         trial.set_user_attr("val_patient_sepsis_rmse", float(metric_bundle["sepsis_patient_error"]["rmse"]))
         trial.set_user_attr("val_pehe", float(metric_bundle["causal"]["pehe"]))
         trial.set_user_attr("val_ate_error", float(metric_bundle["causal"]["ate_error"]))
@@ -655,6 +722,7 @@ def run_tuning(config: dict[str, Any], out_dir: Path) -> Path:
         "classification_level": tune_cfg.get("classification_level", "patient"),
         "causal_objective_weights": tune_cfg.get("causal_objective_weights", None),
         "hybrid_objective_weights": tune_cfg.get("hybrid_objective_weights", None),
+        "all_metrics_objective_weights": tune_cfg.get("all_metrics_objective_weights", None),
         "n_trials_requested": n_trials,
         "n_trials_requested_this_run": n_trials_to_run,
         "n_trials_completed_before": trials_before,
@@ -664,6 +732,7 @@ def run_tuning(config: dict[str, Any], out_dir: Path) -> Path:
         "best_value": float(study.best_value),
         "best_params": study.best_params,
         "best_user_attrs": study.best_trial.user_attrs,
+        "tune_root": str(tune_root.as_posix()),
         "storage": storage_uri,
     }
     save_json(result, study_dir / "best_result.json")

@@ -44,6 +44,14 @@ class PatientSequenceDataset(Dataset):
         self.aug_value_dim = int(max(1, raw_value_dim))
         raw_clip = cfg.get("value_clip", 8.0)
         self.aug_value_clip = None if raw_clip is None else float(max(0.0, raw_clip))
+        raw_input_value_dim = cfg.get("input_value_dim", len(FEATURE_COLS))
+        if raw_input_value_dim is None:
+            raw_input_value_dim = len(FEATURE_COLS)
+        self.input_value_dim = int(max(1, raw_input_value_dim))
+        raw_input_clip = cfg.get("input_value_clip", None)
+        self.input_value_clip = (
+            None if raw_input_clip is None else float(max(0.0, raw_input_clip))
+        )
         self._rng = np.random.default_rng(seed + 7919)
 
     def __len__(self) -> int:
@@ -75,10 +83,21 @@ class PatientSequenceDataset(Dataset):
         out[:, :value_dim] = xv
         return out
 
+    def _apply_input_clip(self, x: np.ndarray) -> np.ndarray:
+        if self.input_value_clip is None or self.input_value_clip <= 0:
+            return x
+        out = x.copy()
+        value_dim = int(min(max(1, self.input_value_dim), out.shape[1]))
+        xv = out[:, :value_dim]
+        np.clip(xv, -self.input_value_clip, self.input_value_clip, out=xv)
+        out[:, :value_dim] = xv
+        return out
+
     def __getitem__(self, idx: int) -> dict[str, Any]:
         row = self.df.iloc[idx]
         payload = np.load(row["prepared_path"])
         x = payload["x"].astype(np.float32)
+        x = self._apply_input_clip(x)
         actions = payload["actions"].astype(np.int64)
         y = payload["y"].astype(np.float32)
         y_all = payload["y_all"].astype(np.float32)

@@ -26,6 +26,7 @@ Use real treatment-effect claims only after replacing the simulator with real tr
 - `src/sepsis_causal/model.py`: causal transformer model
 - `src/sepsis_causal/train.py`: model training
 - `src/sepsis_causal/evaluate.py`: evaluation metrics
+- `src/sepsis_causal/mimic_builder.py`: MIMIC-to-PhysioNet-style bridge for combined training
 
 ## Setup
 
@@ -93,7 +94,42 @@ python -m sepsis_causal.cli train --config configs/base/default.yaml
 python -m sepsis_causal.cli evaluate --config configs/base/default.yaml
 python -m sepsis_causal.cli tune --config configs/base/default.yaml
 python -m sepsis_causal.cli optimize --config configs/optimization/optimize_everything.yaml
+python -m sepsis_causal.cli build-mimic --config configs/base/default.yaml --mimic-root c:/Users/emili/sepsis_project/data/mimic_iv_demo_v2_2
+python -m sepsis_causal.cli plot-history --config configs/base/default.yaml
 ```
+
+If `plot-history` errors with a matplotlib import message, install it once:
+
+```bash
+pip install matplotlib
+```
+
+For older runs that were trained before MAE/MSE/RMSE tracking was added, retrain first to generate those per-epoch values in `train_history.json`.
+
+## Use PhysioNet + MIMIC together
+
+1) Build MIMIC ICU stays into PhysioNet-like `p*.psv` files under your current `data_root`:
+
+```bash
+python -m sepsis_causal.cli build-mimic \
+  --config configs/base/default.yaml \
+  --mimic-root c:/Users/emili/sepsis_project/data/mimic_iv_demo_v2_2 \
+  --output-subdir training_mimic
+```
+
+2) Train with a config that includes `training_mimic` in `data.train_dirs`:
+
+```bash
+python -m sepsis_causal.cli prepare --config configs/base/default_with_mimic.yaml
+python -m sepsis_causal.cli train --config configs/base/default_with_mimic.yaml
+python -m sepsis_causal.cli evaluate --config configs/base/default_with_mimic.yaml
+```
+
+The MIMIC bridge writes:
+
+- `<data_root>/training_mimic/p*.psv`
+- `<data_root>/training_mimic/mimic_manifest.csv`
+- `<data_root>/training_mimic/mimic_build_summary.json`
 
 ## Hyperparameter Tuning
 
@@ -181,6 +217,39 @@ To improve robustness for rare positive trajectories, add training-only augmenta
 - `train.augmentation_feature_dropout_prob` (for example `0.0` to `0.03`)
 - `train.augmentation_time_dropout_prob` (for example `0.0` to `0.02`)
 
+## Compare Model Families (Transformer vs LSTM/GRU/CNN/MLP)
+
+You can benchmark multiple backbone families on the same prepared split:
+
+```bash
+python -m sepsis_causal.cli benchmark-models --config configs/base/default.yaml
+```
+
+Quick smoke benchmark (short epochs/caps):
+
+```bash
+python -m sepsis_causal.cli benchmark-models --config configs/benchmark/compare_model_families_quick.yaml
+```
+
+Default benchmark model list is in `configs/base/default.yaml` under `benchmark.model_types`.
+
+Outputs:
+
+- `.../comparison_model_families.json`
+- `.../comparison_model_families.csv`
+
+Each benchmark run is saved under:
+
+- `.../run_transformer`
+- `.../run_lstm`
+- `.../run_gru`
+- `.../run_cnn`
+- `.../run_mlp`
+
+To train just one family manually, set:
+
+- `model.model_type: transformer | lstm | gru | cnn | mlp`
+
 ## Outputs
 
 - `c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts/qc/quality_report.json`
@@ -190,4 +259,5 @@ To improve robustness for rare positive trajectories, add training-only augmenta
 - `c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts/model/best_model.pt`
 - `c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts/model/train_history.json`
 - `c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts/eval/metrics.json`
+- `c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts/eval/epoch_error_curves.png`
 

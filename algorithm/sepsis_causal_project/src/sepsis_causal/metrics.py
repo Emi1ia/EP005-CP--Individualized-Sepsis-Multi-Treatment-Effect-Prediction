@@ -28,11 +28,13 @@ def probability_error_metrics(y_true: np.ndarray, y_prob: np.ndarray) -> dict[st
     y_true = y_true.astype(np.float64)
     y_prob = y_prob.astype(np.float64)
     if y_true.size == 0:
-        return {"mae": float("nan"), "rmse": float("nan")}
+        return {"mae": float("nan"), "mse": float("nan"), "rmse": float("nan")}
     mae = float(np.mean(np.abs(y_prob - y_true)))
-    rmse = float(np.sqrt(np.mean((y_prob - y_true) ** 2)))
+    mse = float(np.mean((y_prob - y_true) ** 2))
+    rmse = float(np.sqrt(mse))
     return {
         "mae": mae,
+        "mse": mse,
         "rmse": rmse,
     }
 

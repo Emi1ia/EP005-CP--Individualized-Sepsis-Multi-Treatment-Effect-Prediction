@@ -1,4 +1,4 @@
-seed: 42
+﻿seed: 42
 
 paths:
   data_root: "c:/Users/emili/sepsis_project/data/challenge-2019/training"
@@ -64,46 +64,15 @@ eval:
 
 benchmark:
   model_types: ["transformer", "lstm", "gru", "cnn", "mlp"]
-  out_dir: null
+  out_dir: "c:/Users/emili/sepsis_project/data/sepsis_causal_artifacts/artifacts_model_benchmarks_quick"
   prepared_dir: null
   auto_prepare: true
   skip_existing: true
-  train_overrides: {}
+  train_overrides:
+    epochs: 8
+    early_stopping_patience: 3
+    max_train_patients: 6000
+    max_val_patients: 2000
   model_overrides:
     cnn:
       cnn_kernel_size: 5
-
-tune:
-  method: "bayes"
-  direction: "minimize"
-  study_name: "sepsis_hparam_tuning"
-  n_trials: 20
-  timeout_sec: null
-  trial_epochs: 6
-  trial_patience: 2
-  max_train_patients: 5000
-  max_val_patients: 1500
-  search_space:
-    model.hidden_size: [64, 96, 128, 160, 192]
-    model.num_heads: [4, 8]
-    model.num_layers: [2, 3, 4]
-    model.ff_multiplier: [2, 3, 4]
-    model.dropout_min: 0.05
-    model.dropout_max: 0.30
-    train.learning_rate_min: 0.00003
-    train.learning_rate_max: 0.0005
-    train.weight_decay_min: 0.000001
-    train.weight_decay_max: 0.05
-    train.batch_size: [32, 64]
-    train.lambda_propensity_min: 0.5
-    train.lambda_propensity_max: 2.0
-    train.lambda_balance_min: 0.01
-    train.lambda_balance_max: 0.6
-    train.lambda_smooth_min: 0.005
-    train.lambda_smooth_max: 0.25
-    train.grad_clip_min: 0.5
-    train.grad_clip_max: 2.0
-    train.lambda_sepsis_min: 0.5
-    train.lambda_sepsis_max: 3.0
-    train.sepsis_pos_weight_min: 1.0
-    train.sepsis_pos_weight_max: 8.0

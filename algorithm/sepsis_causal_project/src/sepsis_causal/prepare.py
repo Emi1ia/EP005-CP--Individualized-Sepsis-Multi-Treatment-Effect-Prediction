@@ -80,13 +80,21 @@ def _build_patient_arrays(
     synthetic_noise_std: float,
     seed: int,
     patient_id: int,
+    outlier_clip_std: float | None = None,
+    normalized_value_clip: float | None = None,
 ) -> dict[str, np.ndarray]:
     raw = df[FEATURE_COLS].to_numpy(dtype=np.float32, copy=False)
     sepsis = df[LABEL_COL].to_numpy(dtype=np.int64, copy=False)
 
     obs_mask = ~np.isnan(raw)
     filled = _forward_fill_then_mean_impute(raw, mean)
+    if outlier_clip_std is not None and outlier_clip_std > 0:
+        lo = mean - outlier_clip_std * std
+        hi = mean + outlier_clip_std * std
+        filled = np.clip(filled, lo, hi)
     x_norm = (filled - mean) / std
+    if normalized_value_clip is not None and normalized_value_clip > 0:
+        np.clip(x_norm, -normalized_value_clip, normalized_value_clip, out=x_norm)
     delta = _compute_delta(obs_mask, delta_cap_hours)
 
     x_input = np.concatenate(
@@ -120,6 +128,14 @@ def run_prepare(
     split_ratio = config["data"]["split_ratio"]
     delta_cap_hours = float(config["data"]["delta_cap_hours"])
     synthetic_noise_std = float(config["data"]["synthetic_noise_std"])
+    outlier_clip_std_raw = config["data"].get("outlier_clip_std", None)
+    outlier_clip_std = (
+        None if outlier_clip_std_raw is None else float(max(0.0, outlier_clip_std_raw))
+    )
+    norm_clip_raw = config["data"].get("normalized_value_clip", None)
+    normalized_value_clip = (
+        None if norm_clip_raw is None else float(max(0.0, norm_clip_raw))
+    )
 
     all_files = list_patient_files(data_root, train_dirs)
     if max_patients is not None:
@@ -147,6 +163,8 @@ def run_prepare(
         "mean": mean.tolist(),
         "std": std.tolist(),
         "observed_count": obs_count.tolist(),
+        "outlier_clip_std": outlier_clip_std,
+        "normalized_value_clip": normalized_value_clip,
     }
     (prepared_dir / "normalization_stats.json").write_text(
         json.dumps(stats_payload, indent=2), encoding="utf-8"
@@ -167,6 +185,8 @@ def run_prepare(
                 synthetic_noise_std=synthetic_noise_std,
                 seed=seed,
                 patient_id=patient_id,
+                outlier_clip_std=outlier_clip_std,
+                normalized_value_clip=normalized_value_clip,
             )
 
             out_npz = patient_dir / f"{fp.stem}.npz"
@@ -207,4 +227,3 @@ def run_prepare(
     )
     manifest.to_csv(prepared_dir / "manifest.csv", index=False)
     return prepared_dir
-
