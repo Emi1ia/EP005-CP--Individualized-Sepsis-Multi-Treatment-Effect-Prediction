@@ -1,9 +1,0 @@
-{
-  "best_threshold": 0.13,
-  "best_f1": 0.2637428168708663,
-  "threshold_min": 0.05,
-  "threshold_max": 0.95,
-  "threshold_steps": 91,
-  "n_val_timesteps": 233364,
-  "positive_rate": 0.14680498838424683
-}
