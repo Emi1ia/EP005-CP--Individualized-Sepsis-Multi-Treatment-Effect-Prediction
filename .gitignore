@@ -15,6 +15,7 @@
 data/challenge-2019/
 data/mimic_demo/
 data/mimic_iv_demo_v2_2/
+data/patients.csv.gz
 data/raw_datasets/
 data/tmp_dl/
 data/sepsis_causal_artifacts/
